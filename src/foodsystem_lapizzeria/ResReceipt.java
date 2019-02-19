@@ -211,7 +211,7 @@ public class ResReceipt extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-              AdminPage Ap = new AdminPage();
+       // AdminPage Ap = new AdminPage();
         AdminPage.jList1.setModel(ResReceipt.jList1.getModel());
         AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
        // Ap.setVisible(true);
