@@ -34,10 +34,20 @@ public class ResReceipt extends javax.swing.JFrame {
             DefaultListModel model = new DefaultListModel();
            
    String qry = " select r.res_address,r.res_contact,p.date,p.time,p.payment_type,\n" +
-"     c.cust_id,c.name,c.contact,c.address,s.item_title,s.description,s.price,s.size,\n" +
+"        c.cust_id,c.name,c.contact,c.address,s.item_title,s.description,s.price,s.size,\n" +
 "        o.order_id,o.order_status,o.total,s.basket_id\n" +
-"from restaurant_table r, payment p, customer c, shopping_basket s, `order` o  order by c.cust_id DESC, p.payment_id DESC, s.basket_id DESC limit 1";
+"   from restaurant_table r, payment p, customer c, shopping_basket s, `order` o  \n" +
+"   where c.cust_id = o.order_id\n" +
+"   order by c.cust_id DESC, p.payment_id DESC, s.basket_id DESC";
    
+//   String qry="SELECT r.res_address,r.res_contact, \n" +
+//"               p.date, p.time, p.payment_type, \n" +
+//"               c.cust_id, c.name, c.contact, c.address,\n" +
+//"               s.item_title, s.description, s.price,s.size,\n" +
+//"               o.order_id, o.order_status, o.total\n" +
+//"FROM restaurant_table r, payment p, customer c, shopping_basket s, `order` o\n" +
+//"WHERE c.cust_id = p.payment_id AND o.order_id = s.basket_id AND r.res_id = c.cust_id\n" +
+//"ORDER by c.cust_id DESC, p.payment_id DESC, s.basket_id DESC;";
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();
 //            ResReceipt();
@@ -143,11 +153,10 @@ public class ResReceipt extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(jButton2))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(55, 55, 55)
@@ -211,10 +220,10 @@ public class ResReceipt extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-       // AdminPage Ap = new AdminPage();
+        AdminPage Ap = new AdminPage();
         AdminPage.jList1.setModel(ResReceipt.jList1.getModel());
         AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
-       // Ap.setVisible(true);
+      // Ap.setVisible(false);
         dispose();
         
         

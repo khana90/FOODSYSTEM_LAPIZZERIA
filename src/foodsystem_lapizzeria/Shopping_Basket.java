@@ -34,6 +34,9 @@ public class Shopping_Basket extends javax.swing.JFrame {
         getTotal();
     }
     
+    public void clearbasket(){
+        
+    }
     
    public void getTotal(){
     double sum = 0.0;
@@ -239,7 +242,11 @@ public class Shopping_Basket extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here: checout
-      
+    DefaultTableModel model= (DefaultTableModel)order_tbl.getModel();
+      for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
+        model.removeRow(i);
+    }
+     
             new ResOrder().setVisible(true);
             dispose();
 
