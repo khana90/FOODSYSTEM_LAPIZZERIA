@@ -186,15 +186,7 @@ public class Customer_Address extends javax.swing.JFrame {
               
               new ResOrder().setVisible(true);
               JOptionPane.showMessageDialog(null, "Address Saved");
-              //dispose();
-        }catch(Exception e){
-            
-        }finally{
-            
-        }try{
-            res.close();
-            pst.close();
-            dispose();
+              dispose();
         }catch(Exception e){
             
         }

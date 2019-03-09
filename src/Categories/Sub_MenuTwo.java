@@ -1,5 +1,6 @@
 package Categories;
 
+import foodsystem_lapizzeria.Login;
 import foodsystem_lapizzeria.ProConnection;
 import foodsystem_lapizzeria.ResMenu;
 import foodsystem_lapizzeria.Shopping_Basket;
@@ -208,7 +209,7 @@ public class Sub_MenuTwo extends javax.swing.JFrame {
 
         try {
 
-            qry = "INSERT INTO shopping_basket(item_title,description,price,size) VALUES (?,?,?,?)";
+            qry = "INSERT INTO shopping_basket(item_title,description,price,size,cust_id) VALUES (?,?,?,?,?)";
             pst = conn.prepareStatement(qry);
             String itemtitle = (String) category_table2.getValueAt(row, 0);
             String desc = (String) category_table2.getValueAt(row, 1);
@@ -219,6 +220,7 @@ public class Sub_MenuTwo extends javax.swing.JFrame {
             pst.setString(2, desc);
             pst.setDouble(3, price);
             pst.setString(4, size);
+            pst.setInt(5, Login.CustomerId);
             pst.execute();
             
             JOptionPane.showMessageDialog(null, "Added to basket !");

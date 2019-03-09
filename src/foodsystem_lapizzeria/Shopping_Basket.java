@@ -1,5 +1,7 @@
 package foodsystem_lapizzeria;
 
+import foodsystem_lapizzeria.Shopping_Basket;
+import foodsystem_lapizzeria.Login;
 import Categories.Sub_MenuOne;
 import java.awt.PopupMenu;
 import java.sql.Connection;
@@ -24,47 +26,49 @@ public class Shopping_Basket extends javax.swing.JFrame {
     ResultSet res;
     String qry;
 
-    /**
-     * Creates new form Order
-     */
+    public static int basketId;
+
     public Shopping_Basket() {
         initComponents();
         conn = ProConnection.ConnectDB();
         OrderTable();
         getTotal();
     }
-    
-    public void clearbasket(){
-        
-    }
-    
-   public void getTotal(){
-    double sum = 0.0;
+
+    public void getTotal() {
+        double sum = 0.0;
 
         DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
-        sum = sum + Double.parseDouble(model.getValueAt(i, 2).toString());
-        //   getTotal();
+            sum = sum + Double.parseDouble(model.getValueAt(i, 2).toString());
+            //   getTotal();
 
             jTextField3.setText(String.format("%.2f", sum));
-            
+            System.out.println("");
 
         }
-   }  
+    }
 
     public void OrderTable() {
-     //   DefaultTableModel mdl = (DefaultTableModel)order_tbl.getModel();
-
+        //   DefaultTableModel mdl = (DefaultTableModel)order_tbl.getModel();
+     qry = " SELECT `item_title`, `description`, `price`, `size`, (cust_id) FROM shopping_basket WHERE cust_id=?";
         try {
-            qry = "select item_title,description,price,size from shopping_basket";
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();
-            order_tbl.setModel(DbUtils.resultSetToTableModel(res));
-            //OrderTable();
-            
+            while(res.next()){
+                String itemTitle = res.getString("item_title");
+                String dsc = res.getString("description");
+                Double prc = res.getDouble("price");
+                String size = res.getString("size");
+                Login.CustomerId = res.getInt("cust_id");
+               // Integer cstId=res.getInt("cust_id");
+                order_tbl.setModel(DbUtils.resultSetToTableModel(res));
+            }
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(null, "kk" + e);
+            System.out.print(e.getMessage());
         }
+    
     }
 
     @SuppressWarnings("unchecked")
@@ -220,40 +224,39 @@ public class Shopping_Basket extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         //  remove item button
         int row = order_tbl.getSelectedRow();
-       // System.out.println(row);
-        DefaultTableModel model=(DefaultTableModel)order_tbl.getModel();
+        // System.out.println(row);
+        DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         String select = model.getValueAt(row, 0).toString();
         System.out.println(select);
-        
-        if (row >=0){
+
+        if (row >= 0) {
             model.removeRow(row);
-            
-            try{
-                qry="Delete From shopping_basket where item_title = ?";
-                pst=conn.prepareStatement(qry);
-                pst.setString(1,(String) select);
+
+            try {
+                qry = "Delete From shopping_basket where item_title = ? ";
+                pst = conn.prepareStatement(qry);
+                pst.setString(1, (String) select);
                 pst.executeUpdate();
                 getTotal();
-            }catch(Exception e){
-                
+            } catch (Exception e) {
+
             }
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here: checout
-    DefaultTableModel model= (DefaultTableModel)order_tbl.getModel();
-      for( int i = model.getRowCount() - 1; i >= 0; i-- ) {
-        model.removeRow(i);
-    }
-     
-            new ResOrder().setVisible(true);
-            dispose();
+        DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
 
-        
+        new ResOrder().setVisible(true);
+        dispose();
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

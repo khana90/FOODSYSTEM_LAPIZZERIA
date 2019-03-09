@@ -1,6 +1,7 @@
 
 package Categories;
 
+import foodsystem_lapizzeria.Login;
 import foodsystem_lapizzeria.ProConnection;
 import foodsystem_lapizzeria.ResMenu;
 import foodsystem_lapizzeria.Shopping_Basket;
@@ -180,22 +181,24 @@ public class Sub_MenuFive extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row= submenu5_tbl.getSelectedRow();
         try{
-            String qry="insert into shopping_basket(item_title,description,price,size) values(?,?,?,?)";
+            String qry="insert into shopping_basket(item_title,description,price,size, cust_id) values(?,?,?,?,?)";
             pst=conn.prepareStatement(qry);
             String itemtitle=(String)submenu5_tbl.getValueAt(row, 0);
             String desc= (String)submenu5_tbl.getValueAt(row,1);
             Double price= (Double)submenu5_tbl.getValueAt(row, 2);
             String size=(String)submenu5_tbl.getValueAt(row, 3);
             
+           // System.out.print(Login.CustomerId);
             pst.setString(1, itemtitle);
             pst.setString(2, desc);
             pst.setDouble(3, price);
             pst.setString(4, size);
+            pst.setInt(5, Login.CustomerId);
             pst.execute();
             
             JOptionPane.showMessageDialog(null, "Added To Basket");
         }catch(Exception e){
-            
+            System.out.print(e.getMessage());
         }
         finally{
             

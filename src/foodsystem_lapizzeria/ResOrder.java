@@ -1,5 +1,7 @@
 package foodsystem_lapizzeria;
 
+import foodsystem_lapizzeria.Shopping_Basket;
+import foodsystem_lapizzeria.Login;
 import Categories.Sub_MenuOne;
 import Categories.Sub_MenuTwo;
 import java.time.LocalDateTime;
@@ -27,7 +29,9 @@ public class ResOrder extends javax.swing.JFrame {
 
     Connection conn;
     PreparedStatement pst;
+    PreparedStatement pst2;
     ResultSet res;
+    String qry, qry2;
 
     public ResOrder() {
         initComponents();
@@ -39,16 +43,23 @@ public class ResOrder extends javax.swing.JFrame {
     }
 
     public void ResOrderTable() {
-
+        qry = " select item_title,description,price,size,cust_id from shopping_basket where cust_id";
         try {
-
-            String qry = "select item_title,description,price,size from shopping_basket";
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();
-            order_tbl2.setModel(DbUtils.resultSetToTableModel(res));
-           // ResOrderTable();
-        } catch (Exception e) {
+            while (res.next()) {
+                String itemTitle = res.getString("item_title");
+                String dsc = res.getString("description");
+                Double prc = res.getDouble("price");
+                String size = res.getString("size");
+                Login.CustomerId = res.getInt("cust_id");
+                //Integer cstId=res.getInt("cust_id");
+                order_tbl2.setModel(DbUtils.resultSetToTableModel(res));
+            }
 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "table" + e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -64,25 +75,27 @@ public class ResOrder extends javax.swing.JFrame {
 
         }
     }
-    public void CustAddress(){
-        
-        try{
-            DefaultListModel model= new DefaultListModel();
-            String qry="select * from customer ORDER BY cust_id DESC  Limit 1";
-            pst=conn.prepareStatement(qry);
-            res=pst.executeQuery();
-            while(res.next()){
-             model.addElement("<CUSTOMER ADDRESS>");
-            model.addElement("Name: "+res.getString("name"));
-            model.addElement("Email: "+res.getString("email"));
-            model.addElement("Address: "+res.getString("address"));
-            model.addElement("Contact: "+res.getString("contact"));
-            
-            jList1.setModel(model);
-            dispose();
+
+    public void CustAddress() {
+
+        try {
+            DefaultListModel model = new DefaultListModel();
+            String qry = "select DISTINCT name,email,address,contact from customer group by cust_id order by 2 DESC limit 1";
+            pst = conn.prepareStatement(qry);
+            res = pst.executeQuery();
+            while (res.next()) {
+                model.addElement("<CUSTOMER ADDRESS>");
+                model.addElement("Name: " + res.getString("name"));
+                model.addElement("Email: " + res.getString("email"));
+                model.addElement("Address: " + res.getString("address"));
+                model.addElement("Contact: " + res.getString("contact"));
+
+                jList1.setModel(model);
+                dispose();
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+            JOptionPane.showMessageDialog(null, "cust addrs" + e);
         }
     }
 
@@ -96,7 +109,7 @@ public class ResOrder extends javax.swing.JFrame {
         order_tbl2 = new javax.swing.JTable();
         jToggleButton1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        RBCollection = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -128,11 +141,11 @@ public class ResOrder extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Collection");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(RBCollection);
+        RBCollection.setText("Collection");
+        RBCollection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                RBCollectionActionPerformed(evt);
             }
         });
 
@@ -156,7 +169,7 @@ public class ResOrder extends javax.swing.JFrame {
 
         jLabel4.setText("Order Status");
 
-        jButton2.setText("Add Address");
+        jButton2.setText("Amend Address");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -199,7 +212,7 @@ public class ResOrder extends javax.swing.JFrame {
                                                 .addComponent(jLabel4)
                                                 .addComponent(jRadioButton2))
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jRadioButton1))
+                                            .addComponent(RBCollection))
                                         .addComponent(jButton2))
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))))
@@ -224,7 +237,7 @@ public class ResOrder extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jRadioButton1)
+                                    .addComponent(RBCollection)
                                     .addComponent(jRadioButton2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -261,52 +274,85 @@ public class ResOrder extends javax.swing.JFrame {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-      if (jRadioButton1.isSelected()) {
-       jLabel3.setText("20 min");
-        }else{
-          jRadioButton2.isSelected();
-           
-      }
+//        if (RBCollection.isSelected()) {
+//            jLabel3.setText("20 min");
+//        } else {
+//            jRadioButton2.isSelected();
+//
+//        }
+        OrderStatus = "Delivery";
 
 
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-//        java.util.Date date = new java.util.Date();
-//
-//        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-//        java.sql.Time sqlTime = new java.sql.Time(date.getTime());
+//INSERT into `order`(cust_id,basket_id) VALUES ('?','?'),
+//(SELECT cust_id, basket_id from shopping_basket where cust_id = (SELECT MAX(cust_id) FROM `shopping_basket`))
+        //INSERT INTO `order` (`cust_id`, `basket_id`)(SELECT cust_id,basket_id from shopping_basket)
+//        qry = "INSERT INTO `order` (`cust_id`, `basket_id`,`order_status`,`total`) values (?,?,?,?)\n"
+//                + "(SELECT cust_id,basket_id from shopping_basket where cust_id=(select MAX(cust_id) from shopping_basket)) ";
+        qry = " select basket_id from shopping_basket where cust_id=(select MAX(cust_id) from shopping_basket)";
+        try {
+            pst = conn.prepareStatement(qry);
+            while(res.next()){
+           //   Shopping_Basket.basketId=res.getInt("basket_id");
+            //  Integer cstId = res.getInt("basket_id");
+              // Login.CustomerId = res.getInt("cust_id");
+               Integer bskId=res.getInt("basket_id");
+            res = pst.executeQuery();
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+            JOptionPane.showMessageDialog(null, "1st qry" + e);
+        }
+
+        qry2 = "INSERT INTO `order` (`cust_id`, basket_id, total, order_status) VALUES (?,?,?,?)";
 
         try {
-        
-     String qry = " INSERT INTO `order` (`order_id`, `cust_id`,`total`, `order_status`) VALUES (NULL, NULL, ?, ?) ";
-     
-            pst = conn.prepareStatement(qry);
-            pst.setDouble(1, Double.parseDouble(tftotal.getText()));
-            jRadioButton1.setActionCommand("collection");
-            jRadioButton2.setActionCommand("delivery");
-            pst.setString(2, buttonGroup1.getSelection().getActionCommand());
-            pst.execute();
-            //    JOptionPane.showMessageDialog(null, "");
-           new Payment().setVisible(true);
-           dispose();
-       
+            pst2 = conn.prepareStatement(qry2);
+
+            while (res.next()) {
+                pst2.setInt(1, Login.CustomerId);
+                pst2.setInt(2, Shopping_Basket.basketId);
+                pst2.setDouble(3, Double.parseDouble(tftotal.getText()));
+                // pst.setDouble(3, res.getDouble("total"));
+//            RBCollection.setActionCommand("collection");
+//            jRadioButton2.setActionCommand("delivery");
+//            pst.setString(4, buttonGroup1.getSelection().getActionCommand());
+                pst2.setString(4, OrderStatus);
+                pst2.execute();
+                new Payment().setVisible(true);
+            }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Select Correct Order Status !");
+            JOptionPane.showMessageDialog(null, "wrong entry" + e);
+            System.out.print(e.getMessage());
         }
-            
-        
+       //  dispose();
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void RBCollectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RBCollectionActionPerformed
         // TODO add your handling code here:
-        if (jRadioButton1.isSelected()) {
-            jLabel3.setText("20 min");
-        }
+        RBCollection.isSelected();
+        jLabel3.setText("20 min");
+        OrderStatus = "collection";
+//        try {
+//            String qry = "insert into order(order_status) values (?)"
+//                    + "";
+//            pst = conn.prepareStatement(qry);
+//          //  pst.setInt(1, Shopping_Basket.basketId);
+//              RBCollection.setActionCommand("collection");
+//              jRadioButton2.setActionCommand("delivery");
+//              pst.setString(1, buttonGroup1.getSelection().getActionCommand());
+////           String value= RBCollection.getActionCommand().toString();
+////            pst.setString(1,value);
+//            pst.execute();
+//            JOptionPane.showMessageDialog(null, "collection is requested");
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "uu" + e);
+//        }
 //       // OrderStatus = "Collection";
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_RBCollectionActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
@@ -316,9 +362,9 @@ public class ResOrder extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
+
         new Customer_Address().setVisible(true);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -357,6 +403,7 @@ public class ResOrder extends javax.swing.JFrame {
     }
     private String OrderStatus;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton RBCollection;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -366,7 +413,6 @@ public class ResOrder extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

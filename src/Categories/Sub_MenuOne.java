@@ -1,6 +1,7 @@
 
 package Categories;
 
+import foodsystem_lapizzeria.Login;
 import foodsystem_lapizzeria.ProConnection;
 import foodsystem_lapizzeria.ResMenu;
 import foodsystem_lapizzeria.Shopping_Basket;
@@ -37,8 +38,6 @@ public class Sub_MenuOne extends javax.swing.JFrame {
    public ArrayList<SubMenu> subMenuList(){
        ArrayList<SubMenu> subMenuList= new ArrayList<>();
      try{  
-       //   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          //String qry="select title from submenu where menu_category in('pizza') "; //(s.sub_id =i.item_id)
  String qry="select i.item_title Pizzas, i.description Toppings,i.price ,i.size "
          + "FROM submenu s, itemmenu i where s.menu_category in ('pizza') AND i.sub_id in('12') ";
           pst=conn.prepareStatement(qry);
@@ -47,14 +46,7 @@ public class Sub_MenuOne extends javax.swing.JFrame {
       }catch(Exception e){
           
       }
-//     finally{
-//             try{
-//                 res.close();
-//                 pst.close();
-//             }catch(Exception e){
-//                 
-//             }
-//         }
+
        return subMenuList;
    }
    
@@ -211,7 +203,7 @@ public class Sub_MenuOne extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row=sub_menu_table.getSelectedRow();
     try{
-    String qry="insert into shopping_basket(item_title,description,price,size) values(?,?,?,?)";
+    String qry="insert into shopping_basket(item_title,description,price,size,cust_id) values(?,?,?,?,?)";
             pst=conn.prepareStatement(qry);
             
 
@@ -225,9 +217,9 @@ public class Sub_MenuOne extends javax.swing.JFrame {
     pst.setString(2, desc);
     pst.setDouble(3, price);
     pst.setString(4, size);
-   
+    pst.setInt(5, Login.CustomerId);
     pst.execute();
-   // pst.addBatch();
+
     JOptionPane.showMessageDialog(null, "Added to Basket !");
 
 }

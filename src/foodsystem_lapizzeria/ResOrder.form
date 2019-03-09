@@ -96,7 +96,7 @@
                                                   <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="RBCollection" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="jButton2" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -132,7 +132,7 @@
                               <Component id="jScrollPane1" min="-2" pref="323" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jRadioButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="RBCollection" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jRadioButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -191,7 +191,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+        <Component class="javax.swing.JRadioButton" name="RBCollection">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
@@ -199,7 +199,7 @@
             <Property name="text" type="java.lang.String" value="Collection"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RBCollectionActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="jRadioButton2">
@@ -248,7 +248,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Add Address"/>
+            <Property name="text" type="java.lang.String" value="Amend Address"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>

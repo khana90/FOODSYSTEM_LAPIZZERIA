@@ -1,11 +1,17 @@
 package foodsystem_lapizzeria;
-
+import foodsystem_lapizzeria.Login;
 import Foodsystem_Admin.AdminPage;
+import static Foodsystem_Admin.AdminPage.jListAdmin;
 import static Foodsystem_Admin.AdminPage.jPanel4;
+import Foodsystem_Admin.Admin_Login;
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -32,62 +38,60 @@ public class ResReceipt extends javax.swing.JFrame {
 
         try {
             DefaultListModel model = new DefaultListModel();
-           
-   String qry = " select r.res_address,r.res_contact,p.date,p.time,p.payment_type,\n" +
-"        c.cust_id,c.name,c.contact,c.address,s.item_title,s.description,s.price,s.size,\n" +
-"        o.order_id,o.order_status,o.total,s.basket_id\n" +
-"   from restaurant_table r, payment p, customer c, shopping_basket s, `order` o  \n" +
-"   where c.cust_id = o.order_id\n" +
-"   order by c.cust_id DESC, p.payment_id DESC, s.basket_id DESC";
-   
-//   String qry="SELECT r.res_address,r.res_contact, \n" +
-//"               p.date, p.time, p.payment_type, \n" +
-//"               c.cust_id, c.name, c.contact, c.address,\n" +
-//"               s.item_title, s.description, s.price,s.size,\n" +
-//"               o.order_id, o.order_status, o.total\n" +
-//"FROM restaurant_table r, payment p, customer c, shopping_basket s, `order` o\n" +
-//"WHERE c.cust_id = p.payment_id AND o.order_id = s.basket_id AND r.res_id = c.cust_id\n" +
-//"ORDER by c.cust_id DESC, p.payment_id DESC, s.basket_id DESC;";
+
+            String qry = "select c.cust_id,c.name, c.email,c.address,c.contact, \n"
+                    + "p.Date,p.time,p.payment_type,p.Amount,\n"
+                    + "o.order_id, o.order_status,o.total,\n"
+                    + "r.res_address,r.res_contact,\n"
+                    + "s.item_title,s.description,s.price,s.size\n"
+                    + "from customer c , payment p, `order` o, Restaurant_Table r , shopping_basket s\n"
+                    + "where o.order_id=c.cust_id AND c.cust_id = ? \n"
+                    + "order by c.cust_id DESC, o.order_id DESC, p.payment_id DESC"
+                    + "";
+             
             pst = conn.prepareStatement(qry);
+            pst.setInt(1, Login.CustomerId);
             res = pst.executeQuery();
 //            ResReceipt();
-         
+
             while (res.next()) {
-                model.addElement("<<<<<<<<<<<LAPIZZERIA>>>>>>>>>>>>");
-                //   model.addElement("++++"+res.getObject(1).toString());
+                model.addElement("<<<<<<<<<<<<<<LAPIZZERIA>>>>>>>>>>>>>>>");
+                //   model.addElement(""+res.getObject(1).toString());
                 model.addElement("ADDRESS :" + res.getString("res_address"));
                 model.addElement("CONTACT :" + res.getString("res_contact"));
-                model.addElement("-------------------------------------");
-
+                model.addElement("----------------Payment Details------------------");
                 model.addElement("DATE :" + res.getString("date"));
                 model.addElement("TIME :" + res.getString("time"));
-             //   model.addElement("TOTAL :" + res.getString("amount"));
+                model.addElement("Grand TOTAL :" + res.getString("amount"));
                 model.addElement("PAYMENT METHOD :" + res.getString("payment_type"));
-                model.addElement("-------------CUSTOMER DETAILS------------------");
+                model.addElement("ORDER_STATUS: " + res.getString("order_status"));
+
+                model.addElement("---------------CUSTOMER DETAILS--------------------");
                 model.addElement("CUSTOMER ID: " + res.getString("cust_id"));
                 model.addElement("CUSTOMER NAME: " + res.getString("name"));
                 model.addElement("CUSTOMER CONTACT: " + res.getString("contact"));
                 model.addElement("CUSTOMER ADDRESS: " + res.getString("address"));
-                model.addElement("-------------ORDER DETAILS------------------");
-             
+                model.addElement("CUSTOMER EMAIL: " + res.getString("email"));
+                
+                model.addElement("---------------ORDER DETAILS-----------------------");
+           
                 model.addElement("ORDER ID: " + res.getString("order_id"));
-                 model.addElement("ITEM NAME: " + res.getString("item_title"));
+                model.addElement("ITEM NAME: " + res.getString("item_title"));
                 model.addElement("DESCRIPTION: " + res.getString("description"));
                 model.addElement("PRICE: " + res.getString("price"));
                 model.addElement("SIZE: " + res.getString("size"));
-                model.addElement("ORDER_STATUS: " + res.getString("order_status"));
-                model.addElement("TOTAL: " + res.getString("total"));
-             //   model.addElement("BASKET_ID: " + res.getString("basket_id"));
-              
+
+                model.addElement("");
+                model.addElement("");
+                model.addElement("******************Enjoy Your Food*******************");
                 jList1.setModel(model);
-
-                dispose();
+            
             }
-
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "" + e);
+          JOptionPane.showMessageDialog(null, ""+e);
         }
 
+        // dispose();
     }
 
     @SuppressWarnings("unchecked")
@@ -210,7 +214,7 @@ public class ResReceipt extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         new Payment().setVisible(true);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -220,13 +224,25 @@ public class ResReceipt extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        AdminPage Ap = new AdminPage();
-        AdminPage.jList1.setModel(ResReceipt.jList1.getModel());
-        AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
-      // Ap.setVisible(false);
+        //   DefaultListModel model= new DefaultListModel();
+         AdminPage Al = new AdminPage();
+//        ListModel ls = jList1.getModel();
+//        AdminPage ad = new AdminPage();
+      //  ListModel ad= jListAdmin.setModel();
+
+     AdminPage.jListAdmin.setModel(ResReceipt.jList1.getModel());
+     AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
+       Al.setVisible(true);
+       
         dispose();
-        
-        
+//     ListModel msg = jList1.getModel();
+//       if (jButton3.isEnabled()){
+//                ListModel modl= jListAdmin.getModel();
+//                new AdminPage().setVisible(true);
+//            }
+//    
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
