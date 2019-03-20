@@ -1,4 +1,5 @@
 package foodsystem_lapizzeria;
+
 import foodsystem_lapizzeria.Login;
 import Foodsystem_Admin.AdminPage;
 import static Foodsystem_Admin.AdminPage.jListAdmin;
@@ -34,27 +35,22 @@ public class ResReceipt extends javax.swing.JFrame {
         ResReceipt();
     }
 
-    public final void ResReceipt() {    //select * from order order by order_id DESC limit 1
+    public final void ResReceipt() {   
 
         try {
             DefaultListModel model = new DefaultListModel();
-
-            String qry = "select c.cust_id,c.name, c.email,c.address,c.contact, \n"
-                    + "p.Date,p.time,p.payment_type,p.Amount,\n"
-                    + "o.order_id, o.order_status,o.total,\n"
-                    + "r.res_address,r.res_contact,\n"
-                    + "s.item_title,s.description,s.price,s.size\n"
-                    + "from customer c , payment p, `order` o, Restaurant_Table r , shopping_basket s\n"
-                    + "where o.order_id=c.cust_id AND c.cust_id = ? \n"
-                    + "order by c.cust_id DESC, o.order_id DESC, p.payment_id DESC"
-                    + "";
-             
+           
+   String qry = " select r.res_address,r.res_contact,p.date,p.time,p.payment_type,\n" +
+"     c.cust_id,c.name,c.contact,c.address,s.item_title,s.description,s.price,s.size,\n" +
+"        o.order_id,o.order_status,o.total,s.basket_id\n" +
+"from restaurant_table r, payment p, customer c, shopping_basket s, `order` o  order by c.cust_id DESC, p.payment_id DESC, s.basket_id DESC";
+   
             pst = conn.prepareStatement(qry);
-            pst.setInt(1, Login.CustomerId);
-            res = pst.executeQuery();
-//            ResReceipt();
-
-            while (res.next()) {
+            // pst.setInt(1, Login.CustomerId);
+            
+            // Login.CustomerId=res.getInt("cust_id");
+                res = pst.executeQuery();
+          while (res.next()) {
                 model.addElement("<<<<<<<<<<<<<<LAPIZZERIA>>>>>>>>>>>>>>>");
                 //   model.addElement(""+res.getObject(1).toString());
                 model.addElement("ADDRESS :" + res.getString("res_address"));
@@ -64,7 +60,7 @@ public class ResReceipt extends javax.swing.JFrame {
                 model.addElement("TIME :" + res.getString("time"));
                 model.addElement("Grand TOTAL :" + res.getString("amount"));
                 model.addElement("PAYMENT METHOD :" + res.getString("payment_type"));
-                model.addElement("ORDER_STATUS: " + res.getString("order_status"));
+                //  model.addElement("ORDER_STATUS: " + res.getString("order_status"));
 
                 model.addElement("---------------CUSTOMER DETAILS--------------------");
                 model.addElement("CUSTOMER ID: " + res.getString("cust_id"));
@@ -72,23 +68,24 @@ public class ResReceipt extends javax.swing.JFrame {
                 model.addElement("CUSTOMER CONTACT: " + res.getString("contact"));
                 model.addElement("CUSTOMER ADDRESS: " + res.getString("address"));
                 model.addElement("CUSTOMER EMAIL: " + res.getString("email"));
-                
+
                 model.addElement("---------------ORDER DETAILS-----------------------");
-           
+
                 model.addElement("ORDER ID: " + res.getString("order_id"));
                 model.addElement("ITEM NAME: " + res.getString("item_title"));
                 model.addElement("DESCRIPTION: " + res.getString("description"));
                 model.addElement("PRICE: " + res.getString("price"));
                 model.addElement("SIZE: " + res.getString("size"));
+               
 
                 model.addElement("");
                 model.addElement("");
                 model.addElement("******************Enjoy Your Food*******************");
                 jList1.setModel(model);
-            
+
             }
         } catch (Exception e) {
-          JOptionPane.showMessageDialog(null, ""+e);
+            JOptionPane.showMessageDialog(null, "" + e);
         }
 
         // dispose();
@@ -98,6 +95,7 @@ public class ResReceipt extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -107,10 +105,14 @@ public class ResReceipt extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        RBCollection = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -147,31 +149,61 @@ public class ResReceipt extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Order Status");
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Delivery");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(RBCollection);
+        RBCollection.setText("Collection");
+        RBCollection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RBCollectionActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setBackground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(171, 171, 171)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(171, 171, 171)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jRadioButton2))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(RBCollection))))
+                        .addContainerGap(33, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,19 +211,27 @@ public class ResReceipt extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(146, 146, 146)
-                        .addComponent(jButton3)
-                        .addGap(33, 33, 33)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))
-                    .addComponent(jScrollPane1)))
+                .addComponent(jScrollPane1))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jButton2)
+                .addGap(13, 13, 13)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(RBCollection)
+                    .addComponent(jRadioButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(jButton3)
+                .addGap(33, 33, 33)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -225,15 +265,15 @@ public class ResReceipt extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         //   DefaultListModel model= new DefaultListModel();
-         AdminPage Al = new AdminPage();
+        AdminPage Al = new AdminPage();
 //        ListModel ls = jList1.getModel();
 //        AdminPage ad = new AdminPage();
-      //  ListModel ad= jListAdmin.setModel();
+        //  ListModel ad= jListAdmin.setModel();
 
-     AdminPage.jListAdmin.setModel(ResReceipt.jList1.getModel());
-     AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
-       Al.setVisible(true);
-       
+        AdminPage.jListAdmin.setModel(ResReceipt.jList1.getModel());
+        AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
+        Al.setVisible(true);
+
         dispose();
 //     ListModel msg = jList1.getModel();
 //       if (jButton3.isEnabled()){
@@ -248,6 +288,25 @@ public class ResReceipt extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+        //        if (RBCollection.isSelected()) {
+        //            jLabel3.setText("20 min");
+        //        } else {
+        //            jRadioButton2.isSelected();
+        //
+        //        }
+        OrderStatus = "Delivery";
+
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void RBCollectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RBCollectionActionPerformed
+        // TODO add your handling code here:
+        RBCollection.isSelected();
+        jLabel3.setText("20 min");
+        OrderStatus = "collection";
+    }//GEN-LAST:event_RBCollectionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,15 +342,21 @@ public class ResReceipt extends javax.swing.JFrame {
             }
         });
     }
+    private String OrderStatus;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton RBCollection;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     public static javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     public static javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables

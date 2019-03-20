@@ -139,7 +139,7 @@ public class Sub_MenuFive extends javax.swing.JFrame {
                                 .addComponent(jToggleButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)))))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,12 +181,13 @@ public class Sub_MenuFive extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row= submenu5_tbl.getSelectedRow();
         try{
-            String qry="insert into shopping_basket(item_title,description,price,size, cust_id) values(?,?,?,?,?)";
+            String qry="INSERT INTO shopping_basket (item_title,description,price, size, cust_id) VALUES(?,?,?,?,?)";
             pst=conn.prepareStatement(qry);
             String itemtitle=(String)submenu5_tbl.getValueAt(row, 0);
             String desc= (String)submenu5_tbl.getValueAt(row,1);
             Double price= (Double)submenu5_tbl.getValueAt(row, 2);
             String size=(String)submenu5_tbl.getValueAt(row, 3);
+         //   Integer lgid = (Integer)submenu5_tbl.getValueAt(row, 4);
             
            // System.out.print(Login.CustomerId);
             pst.setString(1, itemtitle);
@@ -261,7 +262,7 @@ public class Sub_MenuFive extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

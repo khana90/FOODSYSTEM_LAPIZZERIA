@@ -22,7 +22,7 @@ public class Login extends javax.swing.JFrame {
     ResultSet res;
     
     public static int CustomerId;
-    public static int BasketId;
+   
 
     
     public Login() {
