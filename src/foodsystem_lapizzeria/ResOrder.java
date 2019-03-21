@@ -253,9 +253,7 @@ public class ResOrder extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //INSERT into `order`(cust_id,basket_id)
-        //(SELECT cust_id, basket_id from shopping_basket where cust_id = (SELECT MAX(cust_id) FROM `shopping_basket`))
-
+ 
    qry = " INSERT into `order`(cust_id,basket_id) \n"
         + "SELECT cust_id, basket_id from shopping_basket where basket_id = (SELECT MAX(basket_id) FROM `shopping_basket`)";
         try {
@@ -264,7 +262,7 @@ public class ResOrder extends javax.swing.JFrame {
             while (res.next()) {
                 Login.CustomerId = res.getInt("cust_id");
                 Shopping_Basket.basketId = res.getInt("basket_id");
-                Double price= res.getDouble("total");
+             //   Double price= res.getDouble("total");
 
             }
             new Payment().setVisible(true);

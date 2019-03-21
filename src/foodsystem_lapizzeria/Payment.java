@@ -338,18 +338,18 @@ public class Payment extends javax.swing.JFrame {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:Next button
-       if(buttonGroup1.getSelection()==null){
-           JOptionPane.showMessageDialog(null, "Select Payment Method");
-       }else
-        if(jRadioButton4.isSelected()){
-             //  JOptionPane.showMessageDialog(null, "Payment has been proccessed Successfully !");
-                new ResReceipt().setVisible(true);
-            }else{
-            jRadioButton3.isSelected();{
-                new ResReceipt().setVisible(true);
-                this.dispose();
-            }
-        }
+//       if(buttonGroup1.getSelection()==null){
+//           JOptionPane.showMessageDialog(null, "Select Payment Method");
+//       }else
+//        if(jRadioButton4.isSelected()){
+//             //  JOptionPane.showMessageDialog(null, "Payment has been proccessed Successfully !");
+//                new ResReceipt().setVisible(true);
+//            }else{
+//            jRadioButton3.isSelected();{
+             new ResReceipt().setVisible(true);
+//                this.dispose();
+//            }
+//        }
        
 
 

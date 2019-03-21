@@ -27,7 +27,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
     String qry;
 
     public static int basketId;
-    public static String orderStatus;
+   
 
     public Shopping_Basket() {
         initComponents();
@@ -52,7 +52,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
     public void OrderTable() {
 //var sql = "SELECT * FROM Condos WHERE `" + choice + "` LIKE @1";
         //   DefaultTableModel mdl = (DefaultTableModel)order_tbl.getModel();
-        qry = "SELECT item_title, description, price, size, cust_id from shopping_basket WHERE cust_id= @id like @1"; 
+        qry = "SELECT item_title, description, price, size, cust_id from shopping_basket WHERE cust_id"; 
         try {
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();
@@ -62,7 +62,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
                 String dsc = res.getString("description");
                 Double prc = res.getDouble("price");
                 String size = res.getString("size");
-              //  Integer cust_id= res.getInt("cust_id");
+               Integer cust_id= res.getInt("cust_id");
                
                 
                 order_tbl.setModel(DbUtils.resultSetToTableModel(res));

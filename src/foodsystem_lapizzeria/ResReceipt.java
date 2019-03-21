@@ -40,10 +40,14 @@ public class ResReceipt extends javax.swing.JFrame {
         try {
             DefaultListModel model = new DefaultListModel();
            
-   String qry = " select r.res_address,r.res_contact,p.date,p.time,p.payment_type,\n" +
-"     c.cust_id,c.name,c.contact,c.address,s.item_title,s.description,s.price,s.size,\n" +
-"        o.order_id,o.order_status,o.total,s.basket_id\n" +
-"from restaurant_table r, payment p, customer c, shopping_basket s, `order` o  order by c.cust_id DESC, p.payment_id DESC, s.basket_id DESC";
+   String qry = " select DISTINCT c.cust_id,c.name, c.email,c.address,c.contact, \n" +
+" p.Date,p.time,p.payment_type,p.Amount,\n" +
+"o.order_id,\n" +
+"r.res_address,r.res_contact,\n" +
+"s.item_title,s.description,s.price,s.size\n" +
+" from customer c , payment p, `order` o, Restaurant_Table r , shopping_basket s\n" +
+"where c.cust_id = (SELECT MAX(c.cust_id) from shopping_basket)\n" +
+"group by s.basket_id";
    
             pst = conn.prepareStatement(qry);
             // pst.setInt(1, Login.CustomerId);
@@ -264,11 +268,15 @@ public class ResReceipt extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+
+              AdminPage Ap = new AdminPage();
+
         //   DefaultListModel model= new DefaultListModel();
         AdminPage Al = new AdminPage();
 //        ListModel ls = jList1.getModel();
 //        AdminPage ad = new AdminPage();
         //  ListModel ad= jListAdmin.setModel();
+
 
         AdminPage.jListAdmin.setModel(ResReceipt.jList1.getModel());
         AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
