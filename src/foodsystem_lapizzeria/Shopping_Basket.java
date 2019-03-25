@@ -50,9 +50,9 @@ public class Shopping_Basket extends javax.swing.JFrame {
     }
 
     public void OrderTable() {
-//var sql = "SELECT * FROM Condos WHERE `" + choice + "` LIKE @1";
         //   DefaultTableModel mdl = (DefaultTableModel)order_tbl.getModel();
-        qry = "SELECT item_title, description, price, size, cust_id from shopping_basket WHERE cust_id"; 
+     qry = "SELECT s.item_title, s.description, s.price, s.size, s.cust_id from shopping_basket s "
+             + "inner join customer c ON s.cust_id = c.cust_id group by s.cust_id"; 
         try {
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();

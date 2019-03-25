@@ -48,7 +48,7 @@ public class ResOrder extends javax.swing.JFrame {
     }
     
     public void ResOrderTable() {
-     qry = "select item_title,description,price,size,cust_id from shopping_basket where cust_id = (SELECT MAX(cust_id) from shopping_basket)";
+     qry = "select item_title,description,price,size,cust_id,basket_id from shopping_basket where cust_id = cust_id";
         try {
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();
@@ -58,7 +58,8 @@ public class ResOrder extends javax.swing.JFrame {
                 Double prc = res.getDouble("price");
                 String size = res.getString("size");
                 Login.CustomerId = res.getInt("cust_id");
-                Integer cstId=res.getInt("cust_id");
+                Shopping_Basket.basketId= res.getInt("basket_id");
+                
                 order_tbl2.setModel(DbUtils.resultSetToTableModel(res));
             }
             
@@ -85,7 +86,7 @@ public class ResOrder extends javax.swing.JFrame {
         
         try {
             DefaultListModel model = new DefaultListModel();
-            String qry = "select DISTINCT name,email,address,contact from customer where cust_id = (SELECT MAX(cust_id) from customer)";
+            String qry = "select DISTINCT name,email,address,contact from customer where cust_id = (SELECT MAX(cust_id) from shopping_basket)";
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();
             while (res.next()) {
@@ -253,17 +254,15 @@ public class ResOrder extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- 
+         //(SELECT MAX(cust_id) FROM `shopping_basket`)
    qry = " INSERT into `order`(cust_id,basket_id) \n"
-        + "SELECT cust_id, basket_id from shopping_basket where basket_id = (SELECT MAX(basket_id) FROM `shopping_basket`)";
+        + "SELECT cust_id, basket_id from shopping_basket where cust_id = cust_id";
         try {
             pst = conn.prepareStatement(qry);
             pst.executeUpdate();
             while (res.next()) {
                 Login.CustomerId = res.getInt("cust_id");
                 Shopping_Basket.basketId = res.getInt("basket_id");
-             //   Double price= res.getDouble("total");
-
             }
             new Payment().setVisible(true);
           Payment.jTextField2.setText(ResOrder.tftotal.getText());
