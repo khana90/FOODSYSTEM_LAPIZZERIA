@@ -38,35 +38,35 @@ public class Shopping_Basket extends javax.swing.JFrame {
 
     public void getTotal() {
         double sum = 0.0;
-
         DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
             sum = sum + Double.parseDouble(model.getValueAt(i, 2).toString());
-            //   getTotal();
+              
             jTextField3.setText(String.format("%.2f", sum));
-            System.out.println("");
-
+          //  System.out.println("");
         }
     }
 
     public void OrderTable() {
         //   DefaultTableModel mdl = (DefaultTableModel)order_tbl.getModel();
-     qry = "SELECT s.item_title, s.description, s.price, s.size, s.cust_id from shopping_basket s "
-             + "inner join customer c ON s.cust_id = c.cust_id group by s.cust_id"; 
+     qry = "SELECT item_title, description, price, size, cust_id from shopping_basket where cust_id = (select Max(cust_id) from shopping_basket) "; 
         try {
             pst = conn.prepareStatement(qry);
-            res = pst.executeQuery();
+            
+           res = pst.executeQuery();
+            
             while (res.next()) {
                 //Integer bskid=res.getInt("basket_id");
                 String itemTitle = res.getString("item_title");
                 String dsc = res.getString("description");
                 Double prc = res.getDouble("price");
                 String size = res.getString("size");
-               Integer cust_id= res.getInt("cust_id");
+             //  Integer cust_id= res.getInt("cust_id");
+            
                
                 
                 order_tbl.setModel(DbUtils.resultSetToTableModel(res));
-
+ 
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "kk" + e);
@@ -232,13 +232,13 @@ public class Shopping_Basket extends javax.swing.JFrame {
         // System.out.println(row);
         DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         String select = model.getValueAt(row, 0).toString();
-        System.out.println(select);
+       // System.out.println(select);
 
         if (row >= 0) {
             model.removeRow(row);
 
             try {
-                qry = "Delete From shopping_basket where item_title = ? ";
+                qry = "Delete From shopping_basket where cust_id = ? ";
                 pst = conn.prepareStatement(qry);
                 pst.setString(1, (String) select);
                 pst.executeUpdate();

@@ -139,7 +139,7 @@ public class ResMenu extends javax.swing.JFrame {
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 51));
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 3, 13)); // NOI18N
-        jLabel4.setText("MAP////");
+        jLabel4.setText("MAP");
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton1.setText("Logout");

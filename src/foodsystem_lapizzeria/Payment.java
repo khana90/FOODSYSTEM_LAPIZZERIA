@@ -368,7 +368,7 @@ public class Payment extends javax.swing.JFrame {
 //            jTextField6.setEditable(false);
 //            jPasswordField1.setEditable(false);
             try {
-            String qry = "INSERT INTO `payment` (`Date`,`time`, `Amount`, `payment_type`, `order_id`) VALUES (?,?,?,?,?)";
+            String qry = "INSERT INTO `payment` (`Date`,`time`, `Amount`, `payment_type`, `order_id` ) VALUES (?,?,?,?,?)";
                 pst = conn.prepareStatement(qry);
           //     while(res.next()){
                 pst.setString(1, jTextField1.getText());//date

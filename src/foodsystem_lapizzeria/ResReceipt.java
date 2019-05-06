@@ -46,8 +46,8 @@ public class ResReceipt extends javax.swing.JFrame {
 "r.res_address,r.res_contact,\n" +
 "s.item_title,s.description,s.price,s.size\n" +
 " from customer c , payment p, `order` o, Restaurant_Table r , shopping_basket s\n" +
-"where c.cust_id = (SELECT MAX(c.cust_id) from shopping_basket)\n" +
-"group by s.basket_id";
+"where c.cust_id = s.cust_id AND o.basket_id = s.basket_id \n" +
+"group by s.cust_id";
    
             pst = conn.prepareStatement(qry);
             // pst.setInt(1, Login.CustomerId);

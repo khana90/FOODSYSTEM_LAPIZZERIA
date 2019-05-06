@@ -48,20 +48,22 @@ public class ResOrder extends javax.swing.JFrame {
     }
     
     public void ResOrderTable() {
-     qry = "select item_title,description,price,size,cust_id,basket_id from shopping_basket where cust_id = cust_id";
+     qry = "select item_title,description,price,size from shopping_basket where cust_id = (select MAX(cust_id) from shopping_basket) ";
         try {
             pst = conn.prepareStatement(qry);
-            res = pst.executeQuery();
-            while (res.next()) {
-                String itemTitle = res.getString("item_title");
+             res = pst.executeQuery();
+          while (res.next()) {
+           //  pst.setInt(1,Shopping_Basket.basketId);
+           
+            String itemTitle = res.getString("item_title");
                 String dsc = res.getString("description");
                 Double prc = res.getDouble("price");
                 String size = res.getString("size");
-                Login.CustomerId = res.getInt("cust_id");
-                Shopping_Basket.basketId= res.getInt("basket_id");
-                
+               
                 order_tbl2.setModel(DbUtils.resultSetToTableModel(res));
-            }
+                
+           }
+          
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "table" + e);
@@ -256,14 +258,18 @@ public class ResOrder extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          //(SELECT MAX(cust_id) FROM `shopping_basket`)
    qry = " INSERT into `order`(cust_id,basket_id) \n"
-        + "SELECT cust_id, basket_id from shopping_basket where cust_id = cust_id";
+        + "SELECT cust_id, basket_id from shopping_basket";
         try {
             pst = conn.prepareStatement(qry);
             pst.executeUpdate();
             while (res.next()) {
-                Login.CustomerId = res.getInt("cust_id");
-                Shopping_Basket.basketId = res.getInt("basket_id");
-            }
+               Login.CustomerId = res.getInt("cust_id");
+               Shopping_Basket.basketId = res.getInt("basket_id");
+    }
+//            pst.setInt(1, Login.CustomerId);
+//            pst.setInt(2, Shopping_Basket.basketId);
+//            
+//            pst.execute();
             new Payment().setVisible(true);
           Payment.jTextField2.setText(ResOrder.tftotal.getText());
 
