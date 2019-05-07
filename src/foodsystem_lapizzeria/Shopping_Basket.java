@@ -27,7 +27,6 @@ public class Shopping_Basket extends javax.swing.JFrame {
     String qry;
 
     public static int basketId;
-   
 
     public Shopping_Basket() {
         initComponents();
@@ -62,9 +61,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
                 Double prc = res.getDouble("price");
                 String size = res.getString("size");
              //  Integer cust_id= res.getInt("cust_id");
-            
-               
-                
+
                 order_tbl.setModel(DbUtils.resultSetToTableModel(res));
  
             }
