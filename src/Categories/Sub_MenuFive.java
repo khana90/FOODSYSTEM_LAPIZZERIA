@@ -104,7 +104,7 @@ public class Sub_MenuFive extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton3.setText("Cancel");
+        jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/foodsystem_L/symbols/Cancel.png"))); // NOI18N
         jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton3ActionPerformed(evt);
@@ -134,8 +134,8 @@ public class Sub_MenuFive extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jToggleButton1)
                                 .addGap(31, 31, 31)
-                                .addComponent(jToggleButton3)
-                                .addGap(49, 49, 49)
+                                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
                                 .addComponent(jToggleButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)))))
@@ -152,7 +152,7 @@ public class Sub_MenuFive extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton1)
                     .addComponent(jToggleButton2)
-                    .addComponent(jToggleButton3)
+                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(16, 16, 16))
         );

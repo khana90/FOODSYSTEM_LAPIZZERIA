@@ -7,7 +7,7 @@ package foodsystem_lapizzeria;
  */
 public class SubMenu {
    private  String title;
-    private String menu_category; 
+   private String menu_category; 
      
     public SubMenu(String title, String menu_category) {
         this.title = title;
