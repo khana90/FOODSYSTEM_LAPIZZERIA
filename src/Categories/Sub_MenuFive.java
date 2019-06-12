@@ -31,7 +31,7 @@ public class Sub_MenuFive extends javax.swing.JFrame {
     }
 
     public ArrayList <SubMenu> subMenuListFive(){
-        ArrayList <SubMenu> subMenuListFour = new ArrayList();
+        ArrayList <SubMenu> subMenuList5 = new ArrayList();
         
         try{
             String qry="select i.item_title Drinks, i.Description ,i.Price ,i.Size "
@@ -42,7 +42,7 @@ public class Sub_MenuFive extends javax.swing.JFrame {
             
         }
         
-        return subMenuListFour;
+        return subMenuList5;
     }
     
     public void subMenuTableFive(){
