@@ -47,22 +47,23 @@ public class ResOrder extends javax.swing.JFrame {
         
     }
     
-    public void ResOrderTable() {
-     qry = "select item_title,description,price,size from shopping_basket where cust_id = (select MAX(cust_id) from shopping_basket) ";
+    public void ResOrderTable() {                           //(select MAX(cust_id) from shopping_basket)
+     qry = "select item_title,description,price,size from shopping_basket "
+             + "where cust_id =  (SELECT MAX(cust_id) from shopping_basket)";
         try {
             pst = conn.prepareStatement(qry);
              res = pst.executeQuery();
-          while (res.next()) {
-           //  pst.setInt(1,Shopping_Basket.basketId);
-           
-            String itemTitle = res.getString("item_title");
-                String dsc = res.getString("description");
-                Double prc = res.getDouble("price");
-                String size = res.getString("size");
+//          while (res.next()) {
+//           //  pst.setInt(1,Shopping_Basket.basketId);
+//           
+//                String itemTitle = res.getString("item_title");
+//                String dsc = res.getString("description");
+//                Double prc = res.getDouble("price");
+//                String size = res.getString("size");
                
                 order_tbl2.setModel(DbUtils.resultSetToTableModel(res));
                 
-           }
+          // }
           
             
         } catch (Exception e) {
@@ -88,7 +89,8 @@ public class ResOrder extends javax.swing.JFrame {
         
         try {
             DefaultListModel model = new DefaultListModel();
-            String qry = "select DISTINCT name,email,address,contact from customer where cust_id = (SELECT MAX(cust_id) from shopping_basket)";
+        //String qry = "select DISTINCT name,email,address,contact from customer where cust_id = (SELECT MAX(cust_id) from shopping_basket)";
+          qry="select name,email,address,contact from customer where cust_id group by cust_id";
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();
             while (res.next()) {
@@ -260,13 +262,13 @@ public class ResOrder extends javax.swing.JFrame {
         try {
             pst = conn.prepareStatement(qry);
             pst.executeUpdate();
-            while (res.next()) {
+            while (res.next()){
                Login.CustomerId = res.getInt("cust_id");
                Shopping_Basket.basketId = res.getInt("basket_id");
     }
 //            pst.setInt(1, Login.CustomerId);
-//            pst.setInt(2, Shopping_Basket.basketId);
-//            
+//            pst.setInt(2, Shopping_Basket.basketId); 
+            
 //            pst.execute();
             new Payment().setVisible(true);
           Payment.jTextField2.setText(ResOrder.tftotal.getText());
