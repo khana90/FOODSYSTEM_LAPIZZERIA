@@ -1,6 +1,7 @@
 package foodsystem_lapizzeria;
 
-import foodsystem_lapizzeria.ResOrder;
+import foodsystem_lapizzeria.Login;
+
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,14 +22,17 @@ public class Payment extends javax.swing.JFrame {
     PreparedStatement pst;
     ResultSet res;
     
-    public static int orderId;
+   // public static int BasketId;
+    public static int CustomerId;
 
     public Payment() {
         super();
         initComponents();
         conn = ProConnection.ConnectDB();
         Calendar();
+        getTotal();
       //  getTotal();
+        this.setLocationRelativeTo(null);
     }
 
     public void Calendar() {
@@ -45,21 +49,12 @@ public class Payment extends javax.swing.JFrame {
         jTextField3.setText(hour + ":" + (minute + 1) + ":" + second);
     }
 
-//    public void getTotal() {
-//        try {
-//            String qry = "SELECT total FROM `order` order by total DESC";
-//            pst = conn.prepareStatement(qry);
-//            res = pst.executeQuery();
-//            if (res.next()) {
-//                jTextField2.setText(res.getString("total"));
-//                //getTotal();
-//            }
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, "aa" + e);
-//        }
-//    }
 
+        public void getTotal(){
+            jTextField2.setText(Shopping_Basket.jTextField3.getText());
+        }
+
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -193,6 +188,7 @@ public class Payment extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel10.setText("Card and Cash");
 
         jSeparator1.setBackground(new java.awt.Color(255, 51, 51));
@@ -209,7 +205,7 @@ public class Payment extends javax.swing.JFrame {
                         .addGap(161, 161, 161))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(253, 253, 253)))
+                        .addGap(220, 220, 220)))
                 .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -305,7 +301,7 @@ public class Payment extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton1)
                     .addComponent(jButton1)
@@ -388,20 +384,22 @@ public class Payment extends javax.swing.JFrame {
 //            jTextField5.setEditable(false);
 //            jTextField6.setEditable(false);
 //            jPasswordField1.setEditable(false);
+        //cash Radio button
             try {
-            String qry = "INSERT INTO `payment` (`Date`,`time`, `Amount`, `payment_type`, `order_id` ) VALUES (?,?,?,?,?)";
+            String qry = "INSERT INTO `payment` (`Date`,`time`, `Amount`, `payment_type`, `cust_id` ) VALUES (?,?,?,?,?)";
                 pst = conn.prepareStatement(qry);
           //     while(res.next()){
                 pst.setString(1, jTextField1.getText());//date
-                 pst.setString(2, jTextField3.getText()); //time
+                pst.setString(2, jTextField3.getText()); //time
                 pst.setDouble(3, Double.parseDouble(jTextField2.getText()));//amount
                 jRadioButton3.setActionCommand("cash");
                // jRadioButton4.setActionCommand("card");
                 pst.setString(4, buttonGroup1.getSelection().getActionCommand());
-                pst.setInt(5, ResOrder.orderId);
+                pst.setInt(5, Login.CustomerId);
                 pst.execute();
              //  }
-                JOptionPane.showMessageDialog(null, " Cash Payment Selected");
+                
+                JOptionPane.showMessageDialog(null, "Cash Payment Selected");
                 
 
             } catch (SQLException | NumberFormatException | HeadlessException e) {
@@ -422,14 +420,14 @@ public class Payment extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new ResOrder().setVisible(true);
+        new Shopping_Basket().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // process pymt button
         
         try {
-          String qry = "INSERT INTO `payment`(`Date`, `time`, `payment_type`, `Amount`, `card_no`, `card_holdername`, `card_expiry`, `card_cvv`, `order_id`) VALUES (?,?,?,?,?,?,?,?,?);";
+          String qry = "INSERT INTO `payment`(`Date`, `time`, `payment_type`, `Amount`, `card_no`, `card_holdername`, `card_expiry`, `card_cvv`, `cust_id`) VALUES (?,?,?,?,?,?,?,?,?);";
                 pst = conn.prepareStatement(qry);
          //    while (res.next()) {
                 pst.setString(1, jTextField1.getText());//date
@@ -440,9 +438,9 @@ public class Payment extends javax.swing.JFrame {
                 pst.setDouble(4, Double.parseDouble(jTextField2.getText()));//amount
                 pst.setInt(5, Integer.parseInt(jTextField4.getText()));//card no
                 pst.setString(6, jTextField5.getText());//cd holder name
-                pst.setString(7, jTextField6.getText());//card expiry
+                pst.setInt(7, Integer.parseInt(jTextField6.getText()));//card expiry
                 pst.setString(8, jPasswordField1.getText()); //cvv
-                pst.setInt(9, ResOrder.orderId);
+                pst.setInt(9, Login.CustomerId);
                 pst.execute();
 
                 JOptionPane.showMessageDialog(null, "payment processed successfully");

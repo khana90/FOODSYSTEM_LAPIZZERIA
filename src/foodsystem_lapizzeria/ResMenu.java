@@ -39,9 +39,8 @@ public class ResMenu extends javax.swing.JFrame {
     public ResMenu() {
         initComponents();
        conn=ProConnection.ConnectDB();
-      // CategoryTable();
-      // CategoryList();
        Calendar();
+       this.setLocationRelativeTo(null);
     
     }
     
@@ -104,6 +103,7 @@ public class ResMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator6 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -114,15 +114,22 @@ public class ResMenu extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,6 +138,7 @@ public class ResMenu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
         jLabel1.setText("Lapizzeria");
 
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel3.setText("Pizza, Kebabs and Burgers");
 
         jTextField1.setEditable(false);
@@ -191,6 +199,7 @@ public class ResMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jMenu1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 13), new java.awt.Color(204, 204, 255))); // NOI18N
         jMenu1.setForeground(javax.swing.UIManager.getDefaults().getColor("Button.select"));
         jMenu1.setText("Menu");
         jMenu1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -203,6 +212,7 @@ public class ResMenu extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
+        jMenu1.add(jSeparator3);
 
         jMenuItem2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jMenuItem2.setText("Kebabs");
@@ -212,6 +222,7 @@ public class ResMenu extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
+        jMenu1.add(jSeparator4);
 
         jMenuItem3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jMenuItem3.setText("Burgers");
@@ -221,6 +232,7 @@ public class ResMenu extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem3);
+        jMenu1.add(jSeparator5);
 
         jMenuItem6.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jMenuItem6.setText("Starters");
@@ -230,6 +242,7 @@ public class ResMenu extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem6);
+        jMenu1.add(jSeparator7);
 
         jMenuItem4.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jMenuItem4.setText("Drinks");
@@ -239,6 +252,7 @@ public class ResMenu extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem4);
+        jMenu1.add(jSeparator8);
 
         jMenuItem5.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jMenuItem5.setText("Ice Creams");
@@ -251,19 +265,24 @@ public class ResMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 13), new java.awt.Color(204, 204, 255))); // NOI18N
         jMenu2.setText("Review");
         jMenu2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
 
         jMenuItem9.setText("jMenuItem9");
         jMenu2.add(jMenuItem9);
+        jMenu2.add(jSeparator2);
 
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setBackground(new java.awt.Color(153, 255, 153));
+        jMenu3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 13), new java.awt.Color(153, 153, 255))); // NOI18N
         jMenu3.setText("Info");
         jMenu3.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
 
         jMenuItem8.setText("jMenuItem8");
         jMenu3.add(jMenuItem8);
+        jMenu3.add(jSeparator1);
 
         jMenuBar1.add(jMenu3);
 
@@ -384,6 +403,14 @@ public class ResMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 

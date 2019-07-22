@@ -7,10 +7,13 @@ import java.awt.PopupMenu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
@@ -26,13 +29,18 @@ public class Shopping_Basket extends javax.swing.JFrame {
     ResultSet res;
     String qry;
 
-    public static int basketId;
+    public static int BasketId;
+    public static int CustomerId;
 
     public Shopping_Basket() {
         initComponents();
         conn = ProConnection.ConnectDB();
         OrderTable();
         getTotal();
+      
+      //  getBasketData();
+        
+        this.setLocationRelativeTo(null);
     }
 
     public void getTotal() {
@@ -40,37 +48,49 @@ public class Shopping_Basket extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
             sum = sum + Double.parseDouble(model.getValueAt(i, 2).toString());
-              
+  
             jTextField3.setText(String.format("%.2f", sum));
-          //  System.out.println("");
+            jTextField3.setBorder(null);
+            jTextField3.getText();
+  
+
         }
     }
 
     public void OrderTable() {
-     //select * from shopping_basket 
-     //where cust_id = (SELECT MAX(cust_id) from shopping_basket)
-     //order by cust_id desc
-     qry = "SELECT item_title, description, price, size, cust_id from shopping_basket "
-             + "where cust_id = (SELECT MAX(cust_id) from shopping_basket) order by cust_id DESC"; 
-        try {
-            pst = conn.prepareStatement(qry);   
-           res = pst.executeQuery();      
-//            if (res.next()) {
-//                //Integer bskid=res.getInt("basket_id");
-//                Integer cust_id= res.getInt("cust_id");
-//                String itemTitle = res.getString("item_title");
-//                String dsc = res.getString("description");
-//                Double prc = res.getDouble("price");
-//                String size = res.getString("size");
+        //where cust_id = (SELECT MAX(cust_id) from shopping_basket)
+        //order by cust_id desc ////Top (10)
+        qry = "SELECT item_title, description,price,size,cust_id FROM `shopping_basket` where cust_id = ?";
 
-                order_tbl.setModel(DbUtils.resultSetToTableModel(res)); 
-           // }
+        try {
+            pst = conn.prepareStatement(qry);
+
+            pst.setInt(1, Login.CustomerId);
+            res = pst.executeQuery();
+
+             DefaultTableModel tableModel = (DefaultTableModel) order_tbl.getModel();
+             order_tbl.setModel(DbUtils.resultSetToTableModel(res));
+            Object[] row;
+
+            while (res.next()) {
+                row = new Object[4];
+          
+                row[0] = res.getString(1);
+                row[1] = res.getString(2);
+                row[2] = res.getString(3);
+                row[3] = res.getString(4);
+
+                tableModel.addRow(row);
+   
+            }
+        
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "shopping B details r incorrect" + e);
             System.out.print(e.getMessage());
         }
-
     }
+    
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -135,6 +155,8 @@ public class Shopping_Basket extends javax.swing.JFrame {
             }
         });
 
+        jTextField3.setEditable(false);
+
         jLabel4.setText("Total:");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/foodsystem_L/symbols/Basket.png"))); // NOI18N
@@ -152,27 +174,21 @@ public class Shopping_Basket extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(190, 190, 190)
-                                .addComponent(jButton2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(497, 497, 497)
-                                .addComponent(jLabel4)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1))))
+                        .addGap(190, 190, 190)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 274, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -182,7 +198,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(122, 122, 122)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton6)
@@ -239,7 +255,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
         // System.out.println(row);
         DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         String select = model.getValueAt(row, 0).toString();
-       // System.out.println(select);
+        // System.out.println(select);
 
         if (row >= 0) {
             model.removeRow(row);
@@ -258,12 +274,18 @@ public class Shopping_Basket extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here: checout
-        DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
-        for (int i = model.getRowCount() - 1; i >= 0; i--) {
-            model.removeRow(i);
-        }
+//        DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
+//        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+//            model.removeRow(i);
+//        }
 
-        new ResOrder().setVisible(true);
+      String total= jTextField3.getText();
+        
+        Payment pym = new Payment();
+            pym.setVisible(true);
+        
+      
+        
         dispose();
 
 
@@ -301,7 +323,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
             }
         });
     }
-    private String OrderStatus;
+  //  private String OrderStatus;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
@@ -313,7 +335,8 @@ public class Shopping_Basket extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField3;
+    public static javax.swing.JTextField jTextField3;
     private javax.swing.JTable order_tbl;
     // End of variables declaration//GEN-END:variables
+
 }

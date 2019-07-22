@@ -38,8 +38,6 @@ public class Update_Details extends javax.swing.JFrame {
         jToggleButton2 = new javax.swing.JToggleButton();
         jPasswordField1 = new javax.swing.JPasswordField();
         jPasswordField2 = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -64,7 +62,7 @@ public class Update_Details extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton2.setText("Save");
+        jToggleButton2.setText("Update");
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton2ActionPerformed(evt);
@@ -126,12 +124,6 @@ public class Update_Details extends javax.swing.JFrame {
                     .addGap(33, 33, 33)))
         );
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        jLabel1.setText("Reset Password");
-
-        jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        jLabel5.setText("Reset Password");
-
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel6.setText("Reset Password");
 
@@ -148,16 +140,6 @@ public class Update_Details extends javax.swing.JFrame {
                     .addGap(5, 5, 5)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(172, 172, 172)
-                    .addComponent(jLabel1)
-                    .addContainerGap(173, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(182, Short.MAX_VALUE)
-                    .addComponent(jLabel5)
-                    .addGap(163, 163, 163)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,16 +152,6 @@ public class Update_Details extends javax.swing.JFrame {
                     .addContainerGap(45, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(188, 188, 188)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addGap(188, 188, 188)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(198, 198, 198)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addGap(178, 178, 178)))
         );
 
         pack();
@@ -188,6 +160,7 @@ public class Update_Details extends javax.swing.JFrame {
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
         try{
+        //    jTextField1.setText("");
             String uname = jTextField1.getText().trim();
             String pass=jPasswordField1.getText().trim();
             String pass2= jPasswordField2.getText().trim();
@@ -196,10 +169,11 @@ public class Update_Details extends javax.swing.JFrame {
             pst=conn.prepareStatement(qry);
             pst.execute();
             if (pass.equals(pass2))
-        JOptionPane.showMessageDialog(null, "password updated/changed successfully !!");
+        JOptionPane.showMessageDialog(null,"Password Updated/changed Successfully !!" ,"Password Reset",JOptionPane.WARNING_MESSAGE);
         else{
-                JOptionPane.showMessageDialog(null, "Incorrect password entered ");
-                }
+        JOptionPane.showMessageDialog(null, "Password Doesn't Match ","Reset Password" ,JOptionPane.INFORMATION_MESSAGE);
+               }
+          
         }catch(Exception e){
 
         }
@@ -247,11 +221,9 @@ public class Update_Details extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;

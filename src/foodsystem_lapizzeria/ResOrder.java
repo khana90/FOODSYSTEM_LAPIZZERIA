@@ -35,79 +35,91 @@ public class ResOrder extends javax.swing.JFrame {
     ResultSet res;
     String qry, qry2;
     
-    public static int orderId;
+    public static int OrderId;
     public static int basketId;
+    public static int CustomerId;
     
-    public ResOrder() {
-        initComponents();
-        conn = ProConnection.ConnectDB();
-        ResOrderTable();
-        getTotal();
-        CustAddress();
-        
-    }
+//    public ResOrder() {
+//        initComponents();
+//        conn = ProConnection.ConnectDB();
+//        ResOrderTable();
+//        getTotal();
+//        CustAddress();
+//        
+//    }
     
-    public void ResOrderTable() {                           //(select MAX(cust_id) from shopping_basket)
-     qry = "select item_title,description,price,size from shopping_basket "
-             + "where cust_id =  (SELECT MAX(cust_id) from shopping_basket)";
-        try {
-            pst = conn.prepareStatement(qry);
-             res = pst.executeQuery();
-//          while (res.next()) {
-//           //  pst.setInt(1,Shopping_Basket.basketId);
+//    public void ResOrderTable() {                           //(select MAX(cust_id) from shopping_basket)
+//     qry = "SELECT item_title, description,price,size FROM `shopping_basket` WHERE 'basket_id' = ? ";
+//        try {
+//            pst = conn.prepareStatement(qry);
+//            
+//            pst.setInt(1, Shopping_Basket.basketId);
+//            
+//             res = pst.executeQuery();
+//              
+//             // Shopping_Basket.basketId = res.getInt("basket_id");
+//              
+//             DefaultTableModel tableModel = (DefaultTableModel) order_tbl2.getModel();
+//             order_tbl2.setModel(DbUtils.resultSetToTableModel(res));
+//            Object[] row;
+//
+//            while (res.next()) {
+//                row = new Object[4];
+//                
+//                row[0] = res.getString(1);
+//                row[1] = res.getString(2);
+//                row[2] = res.getString(3);
+//                row[3] = res.getString(4);
+//
+//                tableModel.addRow(row);
+//   
+//            }  
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "table" + e);
 //           
-//                String itemTitle = res.getString("item_title");
-//                String dsc = res.getString("description");
-//                Double prc = res.getDouble("price");
-//                String size = res.getString("size");
-               
-                order_tbl2.setModel(DbUtils.resultSetToTableModel(res));
-                
-          // }
-          
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "table" + e);
-            System.out.println(e.getMessage());
-        }
-    }
+//        }
+//    }
     
-    public void getTotal() {
-        double sum = 0.0;
-        //  double R=0;
-
-        DefaultTableModel model = (DefaultTableModel) order_tbl2.getModel();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            sum = sum + Double.parseDouble(model.getValueAt(i, 2).toString());
-            
-            tftotal.setText(String.format("%.2f", sum));
-            
-        }
-    }
+//    public void getTotal() {
+//        double sum = 0.0;
+//        //  double R=0;
+//
+//        DefaultTableModel model = (DefaultTableModel) order_tbl2.getModel();
+//        for (int i = 0; i < model.getRowCount(); i++) {
+//            sum = sum + Double.parseDouble(model.getValueAt(i, 2).toString());
+//            
+//            tftotal.setText(String.format("%.2f", sum));
+//            
+//        }
+//    }
     
-    public void CustAddress() {
-        
-        try {
-            DefaultListModel model = new DefaultListModel();
-        //String qry = "select DISTINCT name,email,address,contact from customer where cust_id = (SELECT MAX(cust_id) from shopping_basket)";
-          qry="select name,email,address,contact from customer where cust_id group by cust_id";
-            pst = conn.prepareStatement(qry);
-            res = pst.executeQuery();
-            while (res.next()) {
-                model.addElement("<CUSTOMER ADDRESS>");
-                model.addElement("Name: " + res.getString("name"));
-                model.addElement("Email: " + res.getString("email"));
-                model.addElement("Address: " + res.getString("address"));
-                model.addElement("Contact: " + res.getString("contact"));
-                
-                jList1.setModel(model);
-                dispose();
-            }
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
-            JOptionPane.showMessageDialog(null, "cust addrs" + e);
-        }
-    }
+//    public void CustAddress() {
+//        
+//        try {
+//            DefaultListModel model = new DefaultListModel();
+//        //String qry = "select DISTINCT name,email,address,contact from customer where cust_id = (SELECT MAX(cust_id) from shopping_basket)";
+//          qry="SELECT `name`, `email`, `address`, `contact` FROM `customer` WHERE cust_id = ?";
+//            pst = conn.prepareStatement(qry);
+//            
+//            while (res.next()) {
+//                model.addElement("<CUSTOMER ADDRESS");
+//                pst.setInt(1, Login.CustomerId);
+//                res = pst.executeQuery();
+//              
+//              //  model.addElement("Name: " + res.getInt(1));
+////                model.addElement("Email: " + res.getString("email"));
+////                model.addElement("Address: " + res.getString("address"));
+////                model.addElement("Contact: " + res.getString("contact"));
+//                //  Login.CustomerId = res.getInt("cust_id");
+//                
+//                jList1.setModel(model);
+//                dispose();
+//            }
+//        } catch (Exception e) {
+//            System.out.print(e.getMessage());
+//            JOptionPane.showMessageDialog(null, "cust addrs" + e);
+//        }
+//    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -154,6 +166,11 @@ public class ResOrder extends javax.swing.JFrame {
         jLabel2.setText("Total:");
 
         tftotal.setEditable(false);
+        tftotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tftotalActionPerformed(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 102));
         jLabel3.setForeground(new java.awt.Color(255, 0, 102));
@@ -252,39 +269,43 @@ public class ResOrder extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
 
-        new Customer_Address().setVisible(true);
+//        new Customer_Address().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          //(SELECT MAX(cust_id) FROM `shopping_basket`)
-   qry = " INSERT into `order`(cust_id,basket_id) \n"
-        + "SELECT cust_id, basket_id from shopping_basket";
-        try {
-            pst = conn.prepareStatement(qry);
-            pst.executeUpdate();
-            while (res.next()){
-               Login.CustomerId = res.getInt("cust_id");
-               Shopping_Basket.basketId = res.getInt("basket_id");
-    }
-//            pst.setInt(1, Login.CustomerId);
-//            pst.setInt(2, Shopping_Basket.basketId); 
-            
-//            pst.execute();
-            new Payment().setVisible(true);
-          Payment.jTextField2.setText(ResOrder.tftotal.getText());
-
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
-            JOptionPane.showMessageDialog(null, "1st qry" + e);
-        }
+//   qry = " INSERT into `order`(cust_id,basket_id) \n"
+//        + "SELECT cust_id, basket_id from shopping_basket";
+//        try {
+//            pst = conn.prepareStatement(qry);
+//            pst.executeUpdate();
+//            while (res.next()){
+//               Login.CustomerId = res.getInt("cust_id");
+//               Shopping_Basket.basketId = res.getInt("basket_id");
+//    }
+////            pst.setInt(1, Login.CustomerId);
+////            pst.setInt(2, Shopping_Basket.basketId); 
+//            
+////            pst.execute();
+//            new Payment().setVisible(true);
+//          Payment.jTextField2.setText(ResOrder.tftotal.getText());
+//
+//        } catch (Exception e) {
+//            System.out.print(e.getMessage());
+//            JOptionPane.showMessageDialog(null, "1st qry" + e);
+//        }
 
         //  dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+      //  this.dispose();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void tftotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tftotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tftotalActionPerformed
 
     /**
      * @param args the command line arguments

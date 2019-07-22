@@ -33,6 +33,7 @@ public class ResReceipt extends javax.swing.JFrame {
         initComponents();
         conn = ProConnection.ConnectDB();
         ResReceipt();
+        this.setLocationRelativeTo(null);
     }
 
     public final void ResReceipt() {   
@@ -271,20 +272,26 @@ public class ResReceipt extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-
-              AdminPage Ap = new AdminPage();
+    
+        try{
+        String qry="";
+        
+        }catch(Exception e){
+            
+        }
+        
+          //    AdminPage Ap = new AdminPage();
 
         //   DefaultListModel model= new DefaultListModel();
-        AdminPage Al = new AdminPage();
+        //AdminPage Al = new AdminPage();
 //        ListModel ls = jList1.getModel();
 //        AdminPage ad = new AdminPage();
         //  ListModel ad= jListAdmin.setModel();
 
-
-        AdminPage.jListAdmin.setModel(ResReceipt.jList1.getModel());
-        AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
-        Al.setVisible(true);
+//
+//        AdminPage.jListAdmin.setModel(ResReceipt.jList1.getModel());
+//        AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
+//        Al.setVisible(true);
 
         dispose();
 //     ListModel msg = jList1.getModel();
