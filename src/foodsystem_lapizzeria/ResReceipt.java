@@ -41,53 +41,44 @@ public class ResReceipt extends javax.swing.JFrame {
         try {
             DefaultListModel model = new DefaultListModel();
            
-   String qry = " select DISTINCT c.cust_id,c.name, c.email,c.address,c.contact, \n" +
-" p.Date,p.time,p.payment_type,p.Amount,\n" +
-"o.order_id,\n" +
-"r.res_address,r.res_contact,\n" +
-"s.item_title,s.description,s.price,s.size\n" +
-" from customer c , payment p, `order` o, Restaurant_Table r , shopping_basket s\n" +
-"where c.cust_id = s.cust_id AND o.basket_id = s.basket_id \n" +
-"group by s.cust_id";
+   String qry = " SELECT s.item_title, s.description, s.price, s.size, p.date,p.time,p.amount,p.payment_type"
+           + " from shopping_basket s, payment p where s.cust_id = ?";
    
             pst = conn.prepareStatement(qry);
-            // pst.setInt(1, Login.CustomerId);
-            
-            // Login.CustomerId=res.getInt("cust_id");
-                res = pst.executeQuery();
+            pst.setInt(1, Login.CustomerId);
+               res = pst.executeQuery();
           while (res.next()) {
                 model.addElement("<<<<<<<<<<<<<<LAPIZZERIA>>>>>>>>>>>>>>>");
-                //   model.addElement(""+res.getObject(1).toString());
-                model.addElement("ADDRESS :" + res.getString("res_address"));
-                model.addElement("CONTACT :" + res.getString("res_contact"));
+               
+//                model.addElement("ADDRESS :" + res.getString("res_address"));
+//                model.addElement("CONTACT :" + res.getString("res_contact"));
+//                
                 model.addElement("----------------Payment Details------------------");
                 model.addElement("DATE :" + res.getString("date"));
                 model.addElement("TIME :" + res.getString("time"));
                 model.addElement("Grand TOTAL :" + res.getString("amount"));
                 model.addElement("PAYMENT METHOD :" + res.getString("payment_type"));
-                //  model.addElement("ORDER_STATUS: " + res.getString("order_status"));
-
-                model.addElement("---------------CUSTOMER DETAILS--------------------");
-                model.addElement("CUSTOMER ID: " + res.getString("cust_id"));
-                model.addElement("CUSTOMER NAME: " + res.getString("name"));
-                model.addElement("CUSTOMER CONTACT: " + res.getString("contact"));
-                model.addElement("CUSTOMER ADDRESS: " + res.getString("address"));
-                model.addElement("CUSTOMER EMAIL: " + res.getString("email"));
+//                //  model.addElement("ORDER_STATUS: " + res.getString("order_status"));
+//
+//                model.addElement("---------------CUSTOMER DETAILS--------------------");
+//                model.addElement("CUSTOMER ID: " + res.getString("cust_id"));
+//                model.addElement("CUSTOMER NAME: " + res.getString("name"));
+//                model.addElement("CUSTOMER CONTACT: " + res.getString("contact"));
+//                model.addElement("CUSTOMER ADDRESS: " + res.getString("address"));
+//                model.addElement("CUSTOMER EMAIL: " + res.getString("email"));
 
                 model.addElement("---------------ORDER DETAILS-----------------------");
-
-                model.addElement("ORDER ID: " + res.getString("order_id"));
                 model.addElement("ITEM NAME: " + res.getString("item_title"));
                 model.addElement("DESCRIPTION: " + res.getString("description"));
                 model.addElement("PRICE: " + res.getString("price"));
                 model.addElement("SIZE: " + res.getString("size"));
-               
 
                 model.addElement("");
                 model.addElement("");
                 model.addElement("******************Enjoy Your Food*******************");
                 jList1.setModel(model);
-
+ 
+        
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "" + e);

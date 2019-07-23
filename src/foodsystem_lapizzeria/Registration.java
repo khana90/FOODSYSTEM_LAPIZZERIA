@@ -30,7 +30,7 @@ public class Registration extends javax.swing.JFrame {
           initComponents();
         conn= ProConnection.ConnectDB();
     }
-
+    
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -229,10 +229,12 @@ public class Registration extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     try {
-         // TODO add your handling code here:
+   //  try {
+          String name =tfname.getText();
+           String username= tfusername.getText();
+                 
          Scanner sc = new Scanner (System.in);
-         System.out.println("name:");
+   //      System.out.println("name:");
          
          
          if(tfname.getText().trim().isEmpty() || tfusername.getText().trim().isEmpty() || Email.getText().trim().isEmpty()){
@@ -244,11 +246,25 @@ public class Registration extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(null, "Password Doesn't Match","Password Verification",2);
          }else
              
+  try {
+            String query = "SELECT * FROM customer where name = '" + name + "' and username = '" + username + "'";
  
+            pst = conn.prepareStatement(query);
+            res = pst.executeQuery();
+ 
+            Registration user = null;
+ 
+            if (res.next()) {
+                user = new Registration();       
+                pst.setString(1,res.getString("name"));
+                pst.setString(2,res.getString("username"));
+                
+            JOptionPane.showMessageDialog(null, "user Exists");
+            }else{
+                JOptionPane.showMessageDialog(null, "User Not Exists");
+            }
              try {
-                 String name=tfname.getText();
-
-                 
+              
                  qry="INSERT into customer (name,username,password, password2,email,address,contact) values(?,?,?,?,?,?,?)";
                  pst=conn.prepareStatement(qry);
                  pst.setString(1,tfname.getText());
@@ -260,14 +276,7 @@ public class Registration extends javax.swing.JFrame {
                  pst.setString(7,Contact.getText());
                  pst.execute();
                  
-                 JOptionPane.showMessageDialog(null, "account created");
-                 
-                     
-                 qry="select name,username from customer where name =?";
-                 pst=conn.prepareStatement(qry);
-                 pst.setString(1, name);
-                 
-                 res=pst.executeQuery();
+                 JOptionPane.showMessageDialog(null, "account created");  
                  
              }catch (Exception e){
                  
