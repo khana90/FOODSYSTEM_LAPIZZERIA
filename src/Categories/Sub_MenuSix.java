@@ -90,7 +90,7 @@ public class Sub_MenuSix extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(submenu6_tbl);
 
-        jToggleButton1.setText("Back");
+        jToggleButton1.setText("<");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -211,6 +211,7 @@ public class Sub_MenuSix extends javax.swing.JFrame {
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
         new ResMenu().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed

@@ -1,6 +1,7 @@
 package foodsystem_lapizzeria;
 
 import foodsystem_lapizzeria.Login;
+import foodsystem_lapizzeria.Shopping_Basket;
 import Foodsystem_Admin.AdminPage;
 import static Foodsystem_Admin.AdminPage.jListAdmin;
 import static Foodsystem_Admin.AdminPage.jPanel4;
@@ -28,7 +29,8 @@ public class ResReceipt extends javax.swing.JFrame {
     Connection conn;
     PreparedStatement pst;
     ResultSet res;
-
+public static int BasketId;
+    
     public ResReceipt() {
         initComponents();
         conn = ProConnection.ConnectDB();
@@ -42,11 +44,13 @@ public class ResReceipt extends javax.swing.JFrame {
             DefaultListModel model = new DefaultListModel();
            
    String qry = " SELECT s.item_title, s.description, s.price, s.size, p.date,p.time,p.amount,p.payment_type"
-           + " from shopping_basket s, payment p where s.cust_id = ?";
+           + " from shopping_basket s, payment p where s.basket_id = p.basket_id";
    
             pst = conn.prepareStatement(qry);
-            pst.setInt(1, Login.CustomerId);
+          //  pst.setInt(1, BasketId);
+       
                res = pst.executeQuery();
+               
           while (res.next()) {
                 model.addElement("<<<<<<<<<<<<<<LAPIZZERIA>>>>>>>>>>>>>>>");
                
@@ -81,7 +85,7 @@ public class ResReceipt extends javax.swing.JFrame {
         
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "" + e);
+            JOptionPane.showMessageDialog(null, "rec" + e);
         }
 
         // dispose();
@@ -263,13 +267,6 @@ public class ResReceipt extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    
-        try{
-        String qry="";
-        
-        }catch(Exception e){
-            
-        }
         
           //    AdminPage Ap = new AdminPage();
 

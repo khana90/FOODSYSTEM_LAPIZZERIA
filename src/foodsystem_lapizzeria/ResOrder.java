@@ -279,7 +279,7 @@ public class ResOrder extends javax.swing.JFrame {
 //        try {
 //            pst = conn.prepareStatement(qry);
 //            pst.executeUpdate();
-//            while (res.next()){
+//        while (res.next()){
 //               Login.CustomerId = res.getInt("cust_id");
 //               Shopping_Basket.basketId = res.getInt("basket_id");
 //    }

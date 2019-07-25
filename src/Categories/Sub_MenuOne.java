@@ -109,7 +109,7 @@ public class Sub_MenuOne extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Back");
+        jButton1.setText("<");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -192,6 +192,7 @@ public class Sub_MenuOne extends javax.swing.JFrame {
         // TODO add your handling code here:
         ResMenu rm= new ResMenu();
         rm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
