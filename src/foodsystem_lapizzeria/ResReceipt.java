@@ -43,8 +43,15 @@ public static int BasketId;
         try {
             DefaultListModel model = new DefaultListModel();
            
-   String qry = " SELECT s.item_title, s.description, s.price, s.size, p.date,p.time,p.amount,p.payment_type"
-           + " from shopping_basket s, payment p where s.basket_id = p.basket_id";
+   String qry = " SELECT s.item_title, s.description, s.price, s.size,\n" +
+"c.cust_id, c.name,c.address,c.contact,c.email ,\n" +
+"r.res_name, r.res_address,r.res_contact,r.operation_hours,\n" +
+"p.amount, p.date, p.time, p.payment_type\n" +
+"\n" +
+"from shopping_basket s , customer c , Restaurant_Table r, payment p\n" +
+"where s.cust_id = c.cust_id\n" +
+"GROUP by s.basket_id\n" +
+"ORDER by c.cust_id ";
    
             pst = conn.prepareStatement(qry);
           //  pst.setInt(1, BasketId);
@@ -54,23 +61,23 @@ public static int BasketId;
           while (res.next()) {
                 model.addElement("<<<<<<<<<<<<<<LAPIZZERIA>>>>>>>>>>>>>>>");
                
-//                model.addElement("ADDRESS :" + res.getString("res_address"));
-//                model.addElement("CONTACT :" + res.getString("res_contact"));
-//                
+                model.addElement("ADDRESS :" + res.getString("res_address"));
+                model.addElement("CONTACT :" + res.getString("res_contact"));
+//         customer details
+                 model.addElement("---------------CUSTOMER DETAILS--------------------");
+                model.addElement("CUSTOMER ID: " + res.getString("cust_id"));
+                model.addElement("CUSTOMER NAME: " + res.getString("name"));
+                model.addElement("CUSTOMER CONTACT: " + res.getString("contact"));
+                model.addElement("CUSTOMER ADDRESS: " + res.getString("address"));
+                model.addElement("CUSTOMER EMAIL: " + res.getString("email"));
+      //payment          
                 model.addElement("----------------Payment Details------------------");
                 model.addElement("DATE :" + res.getString("date"));
                 model.addElement("TIME :" + res.getString("time"));
                 model.addElement("Grand TOTAL :" + res.getString("amount"));
                 model.addElement("PAYMENT METHOD :" + res.getString("payment_type"));
 //                //  model.addElement("ORDER_STATUS: " + res.getString("order_status"));
-//
-//                model.addElement("---------------CUSTOMER DETAILS--------------------");
-//                model.addElement("CUSTOMER ID: " + res.getString("cust_id"));
-//                model.addElement("CUSTOMER NAME: " + res.getString("name"));
-//                model.addElement("CUSTOMER CONTACT: " + res.getString("contact"));
-//                model.addElement("CUSTOMER ADDRESS: " + res.getString("address"));
-//                model.addElement("CUSTOMER EMAIL: " + res.getString("email"));
-
+       //basket contents
                 model.addElement("---------------ORDER DETAILS-----------------------");
                 model.addElement("ITEM NAME: " + res.getString("item_title"));
                 model.addElement("DESCRIPTION: " + res.getString("description"));

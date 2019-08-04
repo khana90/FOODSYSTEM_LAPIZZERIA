@@ -37,8 +37,6 @@ public class Shopping_Basket extends javax.swing.JFrame {
         conn = ProConnection.ConnectDB();
         OrderTable();
         getTotal();
-      
-      //  getBasketData();
         
         this.setLocationRelativeTo(null);
     }
@@ -60,12 +58,13 @@ public class Shopping_Basket extends javax.swing.JFrame {
     public void OrderTable() {
         //where cust_id = (SELECT MAX(cust_id) from shopping_basket)
         //order by cust_id desc ////Top (10)
-        qry = "SELECT item_title, description,price,size,cust_id FROM `shopping_basket` where cust_id = ?";
+  qry = "SELECT item_title, description,price,size FROM `shopping_basket` where cust_id = ?";
 
         try {
             pst = conn.prepareStatement(qry);
 
             pst.setInt(1, Login.CustomerId);
+          //  pst.setInt(2,BasketId);
             res = pst.executeQuery();
 
              DefaultTableModel tableModel = (DefaultTableModel) order_tbl.getModel();

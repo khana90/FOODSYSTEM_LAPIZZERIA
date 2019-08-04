@@ -144,7 +144,6 @@ public class ResMenu extends javax.swing.JFrame {
         jTextField1.setEditable(false);
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/foodsystem_L/symbols/Undo.png"))); // NOI18N
         jButton1.setText("Logout");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,7 +173,9 @@ public class ResMenu extends javax.swing.JFrame {
                         .addGap(78, 78, 78)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jButton1)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -341,9 +342,17 @@ public class ResMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        new Login().setVisible(true);
-        this.dispose();
+        // Yes or no option
+   if (JOptionPane.showConfirmDialog(null, "Are you sure wish to log off?", "LOG OFF",
+        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    // yes option
+       new Login().setVisible(true);
+     } else {
+    // no option
+        new ResMenu().setVisible(true);
+          }
+             
+     //  this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

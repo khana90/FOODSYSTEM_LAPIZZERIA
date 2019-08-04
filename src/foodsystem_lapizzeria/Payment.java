@@ -34,7 +34,7 @@ public class Payment extends javax.swing.JFrame {
         conn = ProConnection.ConnectDB();
         Calendar();
         getTotal();
-        //  getTotal();
+     //   AddDateAndTime();
         this.setLocationRelativeTo(null);
     }
 
@@ -49,13 +49,34 @@ public class Payment extends javax.swing.JFrame {
         int hour = cal.get(Calendar.HOUR);
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
-        jTextField3.setText(hour + ":" + (minute + 2) + ":" + second);
+        jTextField3.setText(hour + ":" + (minute + 1));
     }
 
     public void getTotal() {
         jTextField2.setText(Shopping_Basket.jTextField3.getText());
     }
-
+    
+//    public void AddDateAndTime(){
+//
+//        String qry = "INSERT INTO `payment` (cust_id,basket_id) SELECT cust_id,basket_id from shopping_basket ";
+//        try {
+//            pst = conn.prepareStatement(qry);
+//            pst.executeUpdate();
+//
+//            while (res.next()) {
+//                Login.CustomerId = res.getInt("cust_id");
+//                Shopping_Basket.BasketId = res.getInt("basket_id");
+//                
+//            }
+//                   pst.setInt(1,Login.CustomerId);
+//                   pst.setInt(2, Shopping_Basket.BasketId);
+//                   
+//                   pst.execute();
+//
+//        } catch (SQLException | NumberFormatException | HeadlessException e) {
+//            JOptionPane.showMessageDialog(null, "ss" + e);
+//        }
+//    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -70,20 +91,12 @@ public class Payment extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jLabel9 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
@@ -109,9 +122,6 @@ public class Payment extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel4.setText("Payment Type:");
 
-        jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel5.setText("Card No:");
-
         jTextField1.setEditable(false);
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -119,15 +129,6 @@ public class Payment extends javax.swing.JFrame {
                 jTextField2ActionPerformed(evt);
             }
         });
-
-        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel6.setText("Card Holder Name: ");
-
-        jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel7.setText("Expirty Date:");
-
-        jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel8.setText("CVV :");
 
         jToggleButton1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jToggleButton1.setText("Cancel");
@@ -138,7 +139,7 @@ public class Payment extends javax.swing.JFrame {
         });
 
         jToggleButton2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jToggleButton2.setText(">");
+        jToggleButton2.setText(">>");
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton2ActionPerformed(evt);
@@ -163,7 +164,7 @@ public class Payment extends javax.swing.JFrame {
 
         buttonGroup1.add(jRadioButton4);
         jRadioButton4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jRadioButton4.setText("Card");
+        jRadioButton4.setText("Add Card");
         jRadioButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jRadioButton4MouseClicked(evt);
@@ -175,7 +176,7 @@ public class Payment extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("<");
+        jButton1.setText("<<");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -190,7 +191,7 @@ public class Payment extends javax.swing.JFrame {
         });
 
         jLabel10.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel10.setText("Card and Cash");
+        jLabel10.setText("We Accept Card and Cash Payment");
 
         jSeparator1.setBackground(new java.awt.Color(255, 51, 51));
 
@@ -206,57 +207,43 @@ public class Payment extends javax.swing.JFrame {
                         .addGap(161, 161, 161))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(220, 220, 220)))
+                        .addGap(147, 147, 147)))
                 .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
+            .addComponent(jSeparator1)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioButton3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton4)))
-                        .addGap(120, 120, 120)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jTextField2)))
+                        .addGap(123, 123, 123)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton3)
+                            .addComponent(jRadioButton4))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(165, 165, 165)
+                        .addGap(175, 175, 175)
                         .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(74, 74, 74)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(58, 58, 58))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(294, 294, 294)
+                .addComponent(jLabel4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jSeparator1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,37 +259,23 @@ public class Payment extends javax.swing.JFrame {
                         .addComponent(jLabel10)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(jRadioButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton3)
+                    .addComponent(jLabel9)
                     .addComponent(jRadioButton4))
-                .addGap(26, 26, 26)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton1)
                     .addComponent(jButton1)
@@ -316,19 +289,115 @@ public class Payment extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // process pymt button
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new Shopping_Basket().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+
+        if (jRadioButton4.isSelected()) {
+            try{
+                qry="insert into payment (payment_type) values(?)";
+                pst=conn.prepareStatement(qry);
+       //    if(res.next()){
+              //  jRadioButton3.setActionCommand("Cash");
+             jRadioButton4.setActionCommand("card");
+            pst.setString(1, buttonGroup1.getSelection().getActionCommand());
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null,"card has been added");
+         //   }
+                   //  JOptionPane.showMessageDialog(null,"Payming in Cash"); 
+                    
+            }catch(Exception e){
+                
+            }
+            new CardPayment().setVisible(true);
+            //            jTextField4.setEditable(true);
+            //            jTextField5.setEditable(true);
+            //            jTextField6.setEditable(true);
+            //            jPasswordField1.setEditable(true);
+        }
+
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
+    private void jRadioButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton4MouseClicked
+        // TODO add your handling code here: card button
+        //        if(jRadioButton4.isSelected()){
+            //            JOptionPane.showMessageDialog(null, "Enter Card Details");
+            //        }
+
+    }//GEN-LAST:event_jRadioButton4MouseClicked
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        // TODO add your handling code here: RadioButtons
+
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jRadioButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton3MouseClicked
+        //where cust_id = (SELECT MAX(cust_id) from shopping_basket)
+        //cash Radio button
+        qry = "INSERT INTO `payment` (`payment_type`) VALUES (?) ";
+        try {
+            pst = conn.prepareStatement(qry);
+            
+            jRadioButton3.setActionCommand("Cash");
+            // jRadioButton4.setActionCommand("card");
+            pst.setString(1, buttonGroup1.getSelection().getActionCommand());
+
+            //            while (res.next()) {
+                //                Login.CustomerId = res.getInt("cust_id");
+                //                Shopping_Basket.BasketId = res.getInt("basket_id");
+                //
+                //            }
+            //                   pst.setInt(5,Login.CustomerId);
+            //                   pst.setInt(6, Shopping_Basket.BasketId);
+            //
+            pst.execute();
+
+            JOptionPane.showMessageDialog(null, "Cash Payment Selected");
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "kkkkk" + e);
+        }
+    }//GEN-LAST:event_jRadioButton3MouseClicked
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        // TODO add your handling code here:Next button
+        //       if(buttonGroup1.getSelection()==null){
+            //           JOptionPane.showMessageDialog(null, "Select Payment Method");
+            //       }else
+        //        if(jRadioButton4.isSelected()){
+            //             //  JOptionPane.showMessageDialog(null, "Payment has been proccessed Successfully !");
+            //                new ResReceipt().setVisible(true);
+            //            }else{
+            //            jRadioButton3.isSelected();{
+                new ResReceipt().setVisible(true);
+                //                this.dispose();
+                //            }
+            //        }
+
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
@@ -338,130 +407,7 @@ public class Payment extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
 
-
     }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-
-        if (jRadioButton4.isSelected()) {
-            JOptionPane.showMessageDialog(null, "Enter Payment Details");
-//            jTextField4.setEditable(true);
-//            jTextField5.setEditable(true);
-//            jTextField6.setEditable(true);
-//            jPasswordField1.setEditable(true);
-        } else {
-            JOptionPane.showConfirmDialog(null, "Order abort", "Payment Details", JOptionPane.ABORT);
-        }
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
-
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        // TODO add your handling code here:Next button
-//       if(buttonGroup1.getSelection()==null){
-//           JOptionPane.showMessageDialog(null, "Select Payment Method");
-//       }else
-//        if(jRadioButton4.isSelected()){
-//             //  JOptionPane.showMessageDialog(null, "Payment has been proccessed Successfully !");
-//                new ResReceipt().setVisible(true);
-//            }else{
-//            jRadioButton3.isSelected();{
-        new ResReceipt().setVisible(true);
-//                this.dispose();
-//            }
-//        }
-
-
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
-
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-        // TODO add your handling code here: RadioButtons
-
-
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
-
-    private void jRadioButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton3MouseClicked
-
-        String qry = " INSERT INTO `payment` (basket_id) SELECT basket_id from shopping_basket ";
-        try {
-            pst = conn.prepareStatement(qry);
-            pst.executeUpdate();
-
-            while (res.next()) {
-                Shopping_Basket.BasketId = res.getInt("basket_id");
-            }
-            
-                   pst.setInt(1, Shopping_Basket.BasketId);
-                   pst.execute();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Payment.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //cash Radio button
-            try {
-             qry = "INSERT INTO `payment` (`Date`,`time`, `Amount`, `payment_type`) VALUES (?,?,?,?)";
-                pst = conn.prepareStatement(qry);
-          //     while(res.next()){
-                pst.setString(1, jTextField1.getText());//date
-                pst.setString(2, jTextField3.getText()); //time
-                pst.setDouble(3, Double.parseDouble(jTextField2.getText()));//amount
-                jRadioButton3.setActionCommand("Cash");
-               // jRadioButton4.setActionCommand("card");
-                pst.setString(4, buttonGroup1.getSelection().getActionCommand());
-              //  pst.setInt(5, Shopping_Basket.BasketId);
-                pst.execute();
-             //  }
-                
-                JOptionPane.showMessageDialog(null, "Cash Payment Selected");
-                
-
-            } catch (SQLException | NumberFormatException | HeadlessException e) {
-              JOptionPane.showMessageDialog(null,"ss"+e);
-            }
-
-
-    }//GEN-LAST:event_jRadioButton3MouseClicked
-
-    private void jRadioButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton4MouseClicked
-        // TODO add your handling code here: card button
-//        if(jRadioButton4.isSelected()){
-//            JOptionPane.showMessageDialog(null, "Enter Card Details");
-//        }
-
-
-    }//GEN-LAST:event_jRadioButton4MouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        new Shopping_Basket().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // process pymt button
-
-        try {
-            String qry = "INSERT INTO `payment`(`Date`, `time`, `payment_type`, `Amount`, `card_no`, `card_holdername`, `card_expiry`, `card_cvv`) VALUES (?,?,?,?,?,?,?,?);";
-            pst = conn.prepareStatement(qry);
-            //    while (res.next()) {
-            pst.setString(1, jTextField1.getText());//date
-            pst.setString(2, jTextField3.getText()); //time
-            //   jRadioButton3.setActionCommand("cash");
-            jRadioButton4.setActionCommand("card");
-            pst.setString(3, buttonGroup1.getSelection().getActionCommand());
-            pst.setDouble(4, Double.parseDouble(jTextField2.getText()));//amount
-            pst.setInt(5, Integer.parseInt(jTextField4.getText()));//card no
-            pst.setString(6, jTextField5.getText());//cd holder name
-            pst.setInt(7, Integer.parseInt(jTextField6.getText()));//card expiry
-            pst.setString(8, jPasswordField1.getText()); //cvv
-            //    pst.setInt(9, Login.CustomerId);
-            pst.execute();
-
-            JOptionPane.showMessageDialog(null, "payment processed successfully");
-             //     } 
-
-        } catch (SQLException | NumberFormatException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Please Enter Correct Card Details !" + e);
-            System.out.println(e.getMessage());
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -511,22 +457,14 @@ public class Payment extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     public static javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
