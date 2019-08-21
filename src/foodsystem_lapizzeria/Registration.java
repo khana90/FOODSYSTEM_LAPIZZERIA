@@ -240,11 +240,11 @@ public class Registration extends javax.swing.JFrame {
          if(tfname.getText().trim().isEmpty() || tfusername.getText().trim().isEmpty() || Email.getText().trim().isEmpty()){
              
              JOptionPane.showMessageDialog(null, "Field is Empty","Empty Fields",2);
-         }
-         
-         if(tfpassword.equals(Pass2)){
-             JOptionPane.showMessageDialog(null, "Password Doesn't Match","Password Verification",2);
          }else
+         
+//         if(tfpassword.equals(Pass2)){
+//             JOptionPane.showMessageDialog(null, "Password Doesn't Match","Password Verification",2);
+//         }else 
              
   try {
             String query = "SELECT * FROM customer where name = '" + name + "' and username = '" + username + "'";
@@ -276,7 +276,7 @@ public class Registration extends javax.swing.JFrame {
                  pst.setString(7,Contact.getText());
                  pst.execute();
                  
-                 JOptionPane.showMessageDialog(null, "account created");  
+                 JOptionPane.showMessageDialog(null, "Account Has Been Created","New User",2);  
                  
              }catch (Exception e){
                  

@@ -32,6 +32,7 @@ public class Sub_MenuThree extends javax.swing.JFrame {
         conn=ProConnection.ConnectDB();
         subMenuList3();
         subMenuTable3();
+         this.setLocationRelativeTo(null);
         
     }
     

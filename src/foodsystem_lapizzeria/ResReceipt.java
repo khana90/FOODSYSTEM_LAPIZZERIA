@@ -29,8 +29,8 @@ public class ResReceipt extends javax.swing.JFrame {
     Connection conn;
     PreparedStatement pst;
     ResultSet res;
-public static int BasketId;
-    
+    public static int CustomerId;
+
     public ResReceipt() {
         initComponents();
         conn = ProConnection.ConnectDB();
@@ -38,58 +38,102 @@ public static int BasketId;
         this.setLocationRelativeTo(null);
     }
 
-    public final void ResReceipt() {   
+    public final void ResReceipt() {
 
         try {
-            DefaultListModel model = new DefaultListModel();
-           
-   String qry = " SELECT s.item_title, s.description, s.price, s.size,\n" +
-"c.cust_id, c.name,c.address,c.contact,c.email ,\n" +
-"r.res_name, r.res_address,r.res_contact,r.operation_hours,\n" +
-"p.amount, p.date, p.time, p.payment_type\n" +
-"\n" +
-"from shopping_basket s , customer c , Restaurant_Table r, payment p\n" +
-"where s.cust_id = c.cust_id\n" +
-"GROUP by s.basket_id\n" +
-"ORDER by c.cust_id ";
-   
-            pst = conn.prepareStatement(qry);
-          //  pst.setInt(1, BasketId);
-       
-               res = pst.executeQuery();
-               
-          while (res.next()) {
-                model.addElement("<<<<<<<<<<<<<<LAPIZZERIA>>>>>>>>>>>>>>>");
-               
-                model.addElement("ADDRESS :" + res.getString("res_address"));
-                model.addElement("CONTACT :" + res.getString("res_contact"));
-//         customer details
-                 model.addElement("---------------CUSTOMER DETAILS--------------------");
-                model.addElement("CUSTOMER ID: " + res.getString("cust_id"));
-                model.addElement("CUSTOMER NAME: " + res.getString("name"));
-                model.addElement("CUSTOMER CONTACT: " + res.getString("contact"));
-                model.addElement("CUSTOMER ADDRESS: " + res.getString("address"));
-                model.addElement("CUSTOMER EMAIL: " + res.getString("email"));
-      //payment          
-                model.addElement("----------------Payment Details------------------");
-                model.addElement("DATE :" + res.getString("date"));
-                model.addElement("TIME :" + res.getString("time"));
-                model.addElement("Grand TOTAL :" + res.getString("amount"));
-                model.addElement("PAYMENT METHOD :" + res.getString("payment_type"));
-//                //  model.addElement("ORDER_STATUS: " + res.getString("order_status"));
-       //basket contents
-                model.addElement("---------------ORDER DETAILS-----------------------");
-                model.addElement("ITEM NAME: " + res.getString("item_title"));
-                model.addElement("DESCRIPTION: " + res.getString("description"));
-                model.addElement("PRICE: " + res.getString("price"));
-                model.addElement("SIZE: " + res.getString("size"));
+            //  DefaultListModel model = new DefaultListModel();
 
-                model.addElement("");
-                model.addElement("");
-                model.addElement("******************Enjoy Your Food*******************");
-                jList1.setModel(model);
- 
-        
+           String qry = "select\n" +
+"c.cust_id, c.name, c.contact, c.address, c.email, \n" +
+"s.cust_id, s.description, s.item_title, s.price, s.size,\n" +
+"p.Total, p.DateTime, p.Payment_type,\n" +
+"r.res_address,r.res_contact\n" +
+"from customer c \n" +
+"INNER JOIN shopping_basket s on c.cust_id= s.cust_id\n" +
+"Inner Join payment p\n" +
+"INNER JOIN Restaurant_Table r \n" +
+"where c.cust_id =?\n" +
+"GROUP by s.basket_id\n" +
+"order by s.basket_id"
+;
+
+            pst = conn.prepareStatement(qry);
+
+             pst.setInt(1, Login.CustomerId);
+            res = pst.executeQuery();
+            //
+            while (res.next()) {
+
+                String address = res.getString("res_address");
+                String contact = res.getString("res_contact");
+                int CustomerID = res.getInt("cust_id");
+                String CustName = res.getString("name");
+                String CustContact = res.getString("contact");
+                String CustAddress = res.getString("address");
+                String CustEmail = res.getString("email");
+                String ItemName = res.getString("item_title");
+                String Description = res.getString("description");
+                Double Price = res.getDouble("price");
+                String Size = res.getString ("size");
+                String DateTime = res.getString("datetime");
+                Double total = res.getDouble("total");
+                String pymType = res.getString ("payment_type");
+
+
+                jTextArea1.append("*******           LAPIZZERIA           ********" + "\n");
+
+                jTextArea1.append("Restaurant Address:" + address + "\n"
+                        + "Restaurant Contact: " + contact + "\n"
+                        
+                        + "***************    Customer Details **********************" + "\n"
+                        + " Customer Id :" + CustomerID + "\n"
+                        + " Customer Name:" + CustName + "\n"
+                        + " Customer Contact:" + CustContact + "\n"
+                        + " Customer Address:" + CustAddress + "\n"
+                        + " Customer Email:" + CustEmail + "\n"
+                        
+            //          + "***************    Order Details **********************" + "\n"
+                         + " Item Name :" + ItemName + "\n"
+                        + " Item Description :" + Description + "\n"
+                         + " Item Price :" + Price + "\n"
+                         + " Item Size :" + Size + "\n"
+                            + "***************    Payment Details **********************" + "\n"
+                        + " Order time :" + DateTime + "\n"
+                        + " Order Total :" + total + "\n"
+                        + " Payment Type :" + pymType + "\n"
+                        
+                         + "*************** Enjoy Your Food **********************"
+                        
+                );
+
+//                model.addElement("<<<<<<<<<<<<<<LAPIZZERIA>>>>>>>>>>>>>>>");
+//               
+//                model.addElement("ADDRESS :" + res.getString("res_address"));
+//                model.addElement("CONTACT :" + res.getString("res_contact"));
+////      customer details
+//                 model.addElement("---------------CUSTOMER DETAILS--------------------");
+//                model.addElement("CUSTOMER ID: " + res.getString("cust_id"));
+//                model.addElement("CUSTOMER NAME: " + res.getString("name"));
+//                model.addElement("CUSTOMER CONTACT: " + res.getString("contact"));
+//                model.addElement("CUSTOMER ADDRESS: " + res.getString("address"));
+//                model.addElement("CUSTOMER EMAIL: " + res.getString("email"));
+//      //payment          
+//                model.addElement("----------------Payment Details------------------");
+//                model.addElement("DATE :" + res.getString("datetime"));
+//                model.addElement("Grand TOTAL :" + res.getString("amount"));
+//                model.addElement("PAYMENT METHOD :" + res.getString("payment_type"));
+////                //  model.addElement("ORDER_STATUS: " + res.getString("order_status"));
+//       //basket contents
+//                model.addElement("---------------ORDER DETAILS-----------------------");
+//                model.addElement("ITEM NAME: " + res.getString("item_title"));
+//                model.addElement("DESCRIPTION: " + res.getString("description"));
+//                model.addElement("PRICE: " + res.getString("price"));
+//                model.addElement("SIZE: " + res.getString("size"));
+//
+//                model.addElement("");
+//                model.addElement("");
+//                model.addElement("******************Enjoy Your Food*******************");
+//                jList1.setModel(model);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "rec" + e);
@@ -116,6 +160,8 @@ public static int BasketId;
         jRadioButton2 = new javax.swing.JRadioButton();
         RBCollection = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -178,6 +224,10 @@ public static int BasketId;
 
         jLabel3.setBackground(new java.awt.Color(255, 51, 51));
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -185,36 +235,43 @@ public static int BasketId;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(171, 171, 171)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
+                        .addGap(0, 0, 0)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jRadioButton2)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(RBCollection))))))
-                        .addContainerGap(33, Short.MAX_VALUE))
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jRadioButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(RBCollection)))))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(61, 61, 61))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(125, 125, 125))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,20 +286,25 @@ public static int BasketId;
                 .addGap(13, 13, 13)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RBCollection)
-                    .addComponent(jRadioButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(jButton3)
-                .addGap(33, 33, 33)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(RBCollection)
+                            .addComponent(jRadioButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton3)
+                        .addGap(39, 39, 39)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 29, Short.MAX_VALUE)))
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -251,8 +313,8 @@ public static int BasketId;
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,20 +336,17 @@ public static int BasketId;
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
-          //    AdminPage Ap = new AdminPage();
 
+        //    AdminPage Ap = new AdminPage();
         //   DefaultListModel model= new DefaultListModel();
         //AdminPage Al = new AdminPage();
 //        ListModel ls = jList1.getModel();
 //        AdminPage ad = new AdminPage();
         //  ListModel ad= jListAdmin.setModel();
-
 //
 //        AdminPage.jListAdmin.setModel(ResReceipt.jList1.getModel());
 //        AdminPage.jTextArea3.setText(ResReceipt.jTextField1.getText());
 //        Al.setVisible(true);
-
         dispose();
 //     ListModel msg = jList1.getModel();
 //       if (jButton3.isEnabled()){
@@ -372,6 +431,8 @@ public static int BasketId;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
     public static javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -28,6 +28,7 @@ public class Sub_MenuSix extends javax.swing.JFrame {
         conn=ProConnection.ConnectDB();
         subMenuListSix();
         subMenuTableSix();
+         this.setLocationRelativeTo(null);
     }
 
     public ArrayList <SubMenu> subMenuListSix(){

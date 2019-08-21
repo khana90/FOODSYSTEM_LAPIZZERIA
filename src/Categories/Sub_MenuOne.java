@@ -33,6 +33,7 @@ public class Sub_MenuOne extends javax.swing.JFrame {
         conn=ProConnection.ConnectDB();
         subMenuList();
         SubMenuTable();
+         this.setLocationRelativeTo(null);
     }
 
    public ArrayList<SubMenu> subMenuList(){

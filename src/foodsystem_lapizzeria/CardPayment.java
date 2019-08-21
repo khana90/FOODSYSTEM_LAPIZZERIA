@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package foodsystem_lapizzeria;
 
+package foodsystem_lapizzeria;
+import foodsystem_lapizzeria.Shopping_Basket; 
+import static foodsystem_lapizzeria.Payment.jRadioButton4;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,6 +11,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.util.Calendar;
 import java.sql.Timestamp;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -25,7 +23,10 @@ public class CardPayment extends javax.swing.JFrame {
     PreparedStatement pst;
     String qry;
     ResultSet res;
+    public static int BasketId;
     public static int CustomerId;
+    public  static String  buttonGroup1;
+       
 
     public CardPayment() {
         initComponents();
@@ -94,6 +95,11 @@ public void getTotal() {
         jSeparator1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jToggleButton3.setText("Cancel");
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setBackground(new java.awt.Color(153, 255, 153));
 
@@ -206,16 +212,20 @@ public void getTotal() {
         
 
          try {
- String qry = "INSERT INTO `CardPayment`( `DateTime`, `Amount`, `Card_no`, `Card_holdername`, `Card_expiry`, `Card_cvv`,cust_id) VALUES (?,?,?,?,?,?)";
+ String qry = "INSERT INTO `Payment`( `DateTime`, `total`, `Card_no`, `Card_holdername`, `Card_expiry`, `Card_cvv`,payment_type,cust_id) VALUES (CURRENT_TIMESTAMP,?,?,?,?,?,?,?)";
             pst = conn.prepareStatement(qry);
-         
-            pst.setTimestamp(1, new Timestamp(1567296000000L));
-            pst.setDouble(2, Double.parseDouble(jLabel2.getText()));//amount
-            pst.setInt(3, Integer.parseInt(jTextField4.getText()));//card no
-            pst.setString(4, jTextField5.getText());//cd holder name
-            pst.setInt(5, Integer.parseInt(jTextField6.getText()));//card expiry
-            pst.setString(6, jPasswordField1.getText()); //cvv
+            
+        //    pst.setTimestamp(1, new Timestamp(1567296000000L));
+            pst.setDouble(1, Double.parseDouble(jLabel2.getText()));//amount
+            pst.setInt(2, Integer.parseInt(jTextField4.getText()));//card no
+            pst.setString(3, jTextField5.getText());//cd holder name
+            pst.setInt(4, Integer.parseInt(jTextField6.getText()));//card expiry
+            pst.setString(5, jPasswordField1.getText()); //cvv
+            pst.setString(6, jLabel1.getText());
             pst.setInt(7, Login.CustomerId);
+        //    pst.setInt(9,Shopping_Basket.BasketId);
+            
+            
             pst.execute();
 
             JOptionPane.showMessageDialog(null, "payment has been processed successfully", "Payments", 2);
@@ -233,6 +243,11 @@ public void getTotal() {
         new Payment().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     /**
      * @param args the command line arguments

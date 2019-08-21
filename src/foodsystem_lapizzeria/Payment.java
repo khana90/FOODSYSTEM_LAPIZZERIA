@@ -1,12 +1,14 @@
 package foodsystem_lapizzeria;
 
 import foodsystem_lapizzeria.Login;
-import foodsystem_lapizzeria.Shopping_Basket;
+import foodsystem_lapizzeria.Shopping_Basket; 
 import java.awt.HeadlessException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -36,6 +38,7 @@ public class Payment extends javax.swing.JFrame {
         getTotal();
      //   AddDateAndTime();
         this.setLocationRelativeTo(null);
+         
     }
 
     public void Calendar() {
@@ -100,7 +103,6 @@ public class Payment extends javax.swing.JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -183,13 +185,6 @@ public class Payment extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Process Payment");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jLabel10.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel10.setText("We Accept Card and Cash Payment");
 
@@ -200,7 +195,7 @@ public class Payment extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(158, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,11 +230,9 @@ public class Payment extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(175, 175, 175)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(58, 58, 58))))
+                        .addGap(29, 29, 29))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(294, 294, 294)
                 .addComponent(jLabel4)
@@ -278,8 +271,7 @@ public class Payment extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton1)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton1))
                 .addGap(34, 34, 34))
         );
 
@@ -303,11 +295,6 @@ public class Payment extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // process pymt button
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         new Shopping_Basket().setVisible(true);
@@ -315,29 +302,12 @@ public class Payment extends javax.swing.JFrame {
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
 
-        if (jRadioButton4.isSelected()) {
-            try{
-                qry="insert into payment (payment_type) values(?)";
-                pst=conn.prepareStatement(qry);
-       //    if(res.next()){
-              //  jRadioButton3.setActionCommand("Cash");
-             jRadioButton4.setActionCommand("card");
-            pst.setString(1, buttonGroup1.getSelection().getActionCommand());
-            pst.execute();
-            
-            JOptionPane.showMessageDialog(null,"card has been added");
-         //   }
-                   //  JOptionPane.showMessageDialog(null,"Payming in Cash"); 
-                    
-            }catch(Exception e){
-                
-            }
             new CardPayment().setVisible(true);
             //            jTextField4.setEditable(true);
             //            jTextField5.setEditable(true);
             //            jTextField6.setEditable(true);
             //            jPasswordField1.setEditable(true);
-        }
+        
 
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
@@ -356,26 +326,23 @@ public class Payment extends javax.swing.JFrame {
 
     private void jRadioButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton3MouseClicked
         //where cust_id = (SELECT MAX(cust_id) from shopping_basket)
-        //cash Radio button
-        qry = "INSERT INTO `payment` (`payment_type`) VALUES (?) ";
+        //cash Radio button   // VALUES " "(?,?,?,?,(select basket_id from shopping_basket))
+       
+ qry = "INSERT INTO `payment` (DateTime,total,`payment_type`,cust_id) VALUES (CURRENT_TIMESTAMP,?,?,?)";
         try {
             pst = conn.prepareStatement(qry);
             
-            jRadioButton3.setActionCommand("Cash");
-            // jRadioButton4.setActionCommand("card");
-            pst.setString(1, buttonGroup1.getSelection().getActionCommand());
 
-            //            while (res.next()) {
-                //                Login.CustomerId = res.getInt("cust_id");
-                //                Shopping_Basket.BasketId = res.getInt("basket_id");
-                //
-                //            }
-            //                   pst.setInt(5,Login.CustomerId);
-            //                   pst.setInt(6, Shopping_Basket.BasketId);
-            //
+        //    pst.setTimestamp(1, new Timestamp(1567296000000L));
+            pst.setDouble(1, Double.parseDouble(jTextField2.getText()));
+            jRadioButton3.setActionCommand("Cash Payment");
+            pst.setString(2, buttonGroup1.getSelection().getActionCommand());
+            pst.setInt(3, Login.CustomerId);
+         //   pst.setInt(5,Shopping_Basket.BasketId); 
+
             pst.execute();
 
-            JOptionPane.showMessageDialog(null, "Cash Payment Selected");
+            JOptionPane.showMessageDialog(null, "Cash Payment Selected","Payment",2);
 
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "kkkkk" + e);
@@ -383,19 +350,12 @@ public class Payment extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton3MouseClicked
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        // TODO add your handling code here:Next button
-        //       if(buttonGroup1.getSelection()==null){
-            //           JOptionPane.showMessageDialog(null, "Select Payment Method");
-            //       }else
-        //        if(jRadioButton4.isSelected()){
-            //             //  JOptionPane.showMessageDialog(null, "Payment has been proccessed Successfully !");
-            //                new ResReceipt().setVisible(true);
-            //            }else{
-            //            jRadioButton3.isSelected();{
+if (jRadioButton3.isEnabled()){
                 new ResReceipt().setVisible(true);
                 //                this.dispose();
-                //            }
-            //        }
+}else{
+    JOptionPane.showMessageDialog(null, "Please Select Payment Option");
+}
 
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
@@ -451,7 +411,6 @@ public class Payment extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.ButtonGroup buttonGroup5;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -460,7 +419,7 @@ public class Payment extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
+    public static javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     public static javax.swing.JTextField jTextField2;
