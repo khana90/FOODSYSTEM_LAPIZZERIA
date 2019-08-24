@@ -1,6 +1,6 @@
-
 package foodsystem_lapizzeria;
 
+import foodsystem_lapizzeria.Login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,20 +11,20 @@ import javax.swing.JOptionPane;
  * @author A
  */
 public class Update_Details extends javax.swing.JFrame {
- Connection conn;
- ResultSet res;       
- PreparedStatement pst;
- 
-        
+
+    Connection conn;
+    ResultSet res;
+    PreparedStatement pst;
+    public static int CustomerId;
+
     /**
      * Creates new form NewJFrame
      */
     public Update_Details() {
         initComponents();
-        conn=ProConnection.ConnectDB();
+        conn = ProConnection.ConnectDB();
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -153,22 +153,28 @@ public class Update_Details extends javax.swing.JFrame {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
-        try{
-        //    jTextField1.setText("");
-            String uname = jTextField1.getText().trim();
-            String pass=jPasswordField1.getText().trim();
-            String pass2= jPasswordField2.getText().trim();
 
- String qry="UPDATE customer set username='"+uname+"', password ='"+pass+"' where password2='"+pass2+"'";
-            pst=conn.prepareStatement(qry);
-            pst.execute();
-            if (pass.equals(pass2))
-        JOptionPane.showMessageDialog(null,"Password Updated/changed Successfully !!" ,"Password Reset",JOptionPane.WARNING_MESSAGE);
-        else{
-        JOptionPane.showMessageDialog(null, "Password Doesn't Match ","Reset Password" ,JOptionPane.INFORMATION_MESSAGE);
-               }
-          
-        }catch(Exception e){
+            String uname = jTextField1.getText().trim();
+            String pass = jPasswordField1.getText().trim();
+            String pass2 = jPasswordField2.getText().trim();
+
+            String qry = "UPDATE customer SET username = '"+uname+"', password = '"+pass+"', password2 = '"+pass2+"' where cust_id = ?";
+        try {    
+            pst = conn.prepareStatement(qry);
+            
+            pst.setString(1, uname);
+            pst.setString(2, pass);
+            pst.setString(3, pass2);
+            pst.setInt(4, Login.CustomerId);
+
+            pst.executeUpdate();
+            if (pass.equals(pass2)) {
+                JOptionPane.showMessageDialog(null, "Password Updated/changed Successfully !!", "Password Reset", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Password Doesn't Match ", "Reset Password", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (Exception e) {
 
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed

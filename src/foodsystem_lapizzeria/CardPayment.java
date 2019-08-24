@@ -217,7 +217,7 @@ public void getTotal() {
             
         //    pst.setTimestamp(1, new Timestamp(1567296000000L));
             pst.setDouble(1, Double.parseDouble(jLabel2.getText()));//amount
-            pst.setInt(2, Integer.parseInt(jTextField4.getText()));//card no
+            pst.setString(2, jTextField4.getText());//card no
             pst.setString(3, jTextField5.getText());//cd holder name
             pst.setInt(4, Integer.parseInt(jTextField6.getText()));//card expiry
             pst.setString(5, jPasswordField1.getText()); //cvv
@@ -228,7 +228,7 @@ public void getTotal() {
             
             pst.execute();
 
-            JOptionPane.showMessageDialog(null, "payment has been processed successfully", "Payments", 2);
+            JOptionPane.showMessageDialog(null, "Payment has been processed successfully", "Payments", 2);
 
         } catch (SQLException | NumberFormatException | HeadlessException e) {
             JOptionPane.showMessageDialog(null, "Please Enter Correct Card Details !" + e);
@@ -240,7 +240,7 @@ public void getTotal() {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
-        new Payment().setVisible(true);
+        new ResReceipt().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 

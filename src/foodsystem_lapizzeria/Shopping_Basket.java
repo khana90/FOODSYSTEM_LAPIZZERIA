@@ -37,7 +37,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
         conn = ProConnection.ConnectDB();
         OrderTable();
         getTotal();
-        
+
         this.setLocationRelativeTo(null);
     }
 
@@ -46,11 +46,10 @@ public class Shopping_Basket extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
             sum = sum + Double.parseDouble(model.getValueAt(i, 2).toString());
-  
+
             jTextField3.setText(String.format("%.2f", sum));
             jTextField3.setBorder(null);
             jTextField3.getText();
-  
 
         }
     }
@@ -58,38 +57,36 @@ public class Shopping_Basket extends javax.swing.JFrame {
     public void OrderTable() {
         //where cust_id = (SELECT MAX(cust_id) from shopping_basket)
         //order by cust_id desc ////Top (10)
-  qry = "SELECT item_title, description,price,size FROM `shopping_basket` where cust_id = ?";
+        qry = "SELECT item_title, description,price,size FROM `shopping_basket` where cust_id = ?";
 
         try {
             pst = conn.prepareStatement(qry);
 
             pst.setInt(1, Login.CustomerId);
-          //  pst.setInt(2,BasketId);
+            //  pst.setInt(2,BasketId);
             res = pst.executeQuery();
 
-             DefaultTableModel tableModel = (DefaultTableModel) order_tbl.getModel();
-             order_tbl.setModel(DbUtils.resultSetToTableModel(res));
+            DefaultTableModel tableModel = (DefaultTableModel) order_tbl.getModel();
+            order_tbl.setModel(DbUtils.resultSetToTableModel(res));
             Object[] row;
 
             while (res.next()) {
                 row = new Object[4];
-          
+
                 row[0] = res.getString(1);
                 row[1] = res.getString(2);
                 row[2] = res.getString(3);
                 row[3] = res.getString(4);
 
                 tableModel.addRow(row);
-   
+
             }
-        
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "shopping B details r incorrect" + e);
             System.out.print(e.getMessage());
         }
     }
-    
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -265,18 +262,17 @@ public class Shopping_Basket extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         //  remove item button
         int row = order_tbl.getSelectedRow();
-   
+
         DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         String select = model.getValueAt(row, 0).toString();
-        // System.out.println(select);
 
-        if (row >= 1) {
+        if (row >= 0) {
             model.removeRow(row);
 
             try {
                 qry = "Delete From shopping_basket where cust_id = ? ";
                 pst = conn.prepareStatement(qry);
-               // pst.setString(1, (String) select);
+                // pst.setString(1, (String) select);
                 pst.setInt(1, CustomerId);
                 pst.executeUpdate();
                 getTotal();
@@ -293,13 +289,11 @@ public class Shopping_Basket extends javax.swing.JFrame {
 //            model.removeRow(i);
 //        }
 
-      String total= jTextField3.getText();
-        
+        String total = jTextField3.getText();
+
         Payment pym = new Payment();
-            pym.setVisible(true);
-        
-      
-        
+        pym.setVisible(true);
+
         dispose();
 
 
@@ -337,7 +331,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
             }
         });
     }
-  //  private String OrderStatus;
+    //  private String OrderStatus;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;

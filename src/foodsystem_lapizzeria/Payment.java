@@ -350,7 +350,7 @@ public class Payment extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton3MouseClicked
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-if (jRadioButton3.isEnabled()){
+if (jRadioButton3.isSelected()){
                 new ResReceipt().setVisible(true);
                 //                this.dispose();
 }else{

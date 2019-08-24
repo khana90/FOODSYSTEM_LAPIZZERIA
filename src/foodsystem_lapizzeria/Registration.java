@@ -240,11 +240,11 @@ public class Registration extends javax.swing.JFrame {
          if(tfname.getText().trim().isEmpty() || tfusername.getText().trim().isEmpty() || Email.getText().trim().isEmpty()){
              
              JOptionPane.showMessageDialog(null, "Field is Empty","Empty Fields",2);
-         }else
+         }
          
-//         if(tfpassword.equals(Pass2)){
-//             JOptionPane.showMessageDialog(null, "Password Doesn't Match","Password Verification",2);
-//         }else 
+         if(tfpassword.equals(Pass2)){
+             JOptionPane.showMessageDialog(null, "Password Doesn't Match","Password Verification",2);
+         }else 
              
   try {
             String query = "SELECT * FROM customer where name = '" + name + "' and username = '" + username + "'";
@@ -258,11 +258,15 @@ public class Registration extends javax.swing.JFrame {
                 user = new Registration();       
                 pst.setString(1,res.getString("name"));
                 pst.setString(2,res.getString("username"));
-                
-            JOptionPane.showMessageDialog(null, "user Exists");
+       
+            
             }else{
                 JOptionPane.showMessageDialog(null, "User Not Exists");
-            }
+            }if(name.equals(user)){
+                         
+            JOptionPane.showMessageDialog(null, "User Exists");
+            }else
+            
              try {
               
                  qry="INSERT into customer (name,username,password, password2,email,address,contact) values(?,?,?,?,?,?,?)";
@@ -283,12 +287,14 @@ public class Registration extends javax.swing.JFrame {
              }
      }catch(Exception e){
      }
+         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
         Login ln= new Login();
         ln.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
