@@ -42,11 +42,13 @@ public class Shopping_Basket extends javax.swing.JFrame {
     }
 
     public void getTotal() {
-        double sum = 0.0;
+        DecimalFormat df = new DecimalFormat("£0.00");
+        double sum = 0.00;
         DefaultTableModel model = (DefaultTableModel) order_tbl.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
             sum = sum + Double.parseDouble(model.getValueAt(i, 2).toString());
 
+            //     jTextField3.setText(String.format("£%.2f", sum));
             jTextField3.setText(String.format("%.2f", sum));
             jTextField3.setBorder(null);
             jTextField3.getText();
@@ -154,7 +156,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
 
         jTextField3.setEditable(false);
 
-        jLabel4.setText("Total:");
+        jLabel4.setText("Total£:");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/foodsystem_L/symbols/Basket.png"))); // NOI18N
 
@@ -188,8 +190,8 @@ public class Shopping_Basket extends javax.swing.JFrame {
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField3))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addComponent(jButton2)

@@ -234,7 +234,7 @@ public class Login extends javax.swing.JFrame {
             }
             if (count==1){
                  new ResMenu().setVisible(true);
-                JOptionPane.showMessageDialog(null, "Access Granted !","Login",2);        
+             //   JOptionPane.showMessageDialog(null, "Access Granted !","Login",2);        
 //                else if(count==1){
 //                JOptionPane.showMessageDialog(null, "Duplicat User, Access Denied");
 //            }    

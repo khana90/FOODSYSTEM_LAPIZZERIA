@@ -271,6 +271,7 @@ public class Registration extends javax.swing.JFrame {
               
                  qry="INSERT into customer (name,username,password, password2,email,address,contact) values(?,?,?,?,?,?,?)";
                  pst=conn.prepareStatement(qry);
+                 
                  pst.setString(1,tfname.getText());
                  pst.setString(2,tfusername.getText());
                  pst.setString(3,tfpassword.getText());

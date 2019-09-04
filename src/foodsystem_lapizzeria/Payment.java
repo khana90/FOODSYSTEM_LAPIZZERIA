@@ -326,7 +326,7 @@ public class Payment extends javax.swing.JFrame {
 
     private void jRadioButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton3MouseClicked
         //where cust_id = (SELECT MAX(cust_id) from shopping_basket)
-        //cash Radio button   // VALUES " "(?,?,?,?,(select basket_id from shopping_basket))
+        //cash Radio button   
        
  qry = "INSERT INTO `payment` (DateTime,total,`payment_type`,cust_id) VALUES (CURRENT_TIMESTAMP,?,?,?)";
         try {
