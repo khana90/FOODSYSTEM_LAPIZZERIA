@@ -42,11 +42,10 @@ public class ResReceipt extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
 
     }
-    
 
     public final void ResReceipt() {
 
-        try {
+       
             //  DefaultListModel model = new DefaultListModel();
             // System.out.println("JList item size: " + list.getModel().getSize());
 
@@ -57,7 +56,6 @@ public class ResReceipt extends javax.swing.JFrame {
 //            System.out.println("Item = " + item);
 //        }
 //    }
-
             qry = "select\n"
                     + "c.cust_id, c.name, c.contact, c.address, c.email, \n"
                     + " s.*,\n"
@@ -70,53 +68,51 @@ public class ResReceipt extends javax.swing.JFrame {
                     + "where c.cust_id =?\n"
                     + "GROUP by s.basket_id \n"
                     + "Order by p.total ";
-
+ try {
             pst = conn.prepareStatement(qry);
-
             pst.setInt(1, Login.CustomerId);
-           res = pst.executeQuery();
+            res = pst.executeQuery();
 
-       //     while (res.next()) {
-                String Resaddress = res.getString("res_address");
-                String Rescontact = res.getString("res_contact");
+          if (res.next()) {
+            String Resaddress = res.getString("res_address");
+            String Rescontact = res.getString("res_contact");
 
-                int custId = res.getInt("cust_id");
-                String custName = res.getString("name");
-                String custEmail = res.getString("email");
-                String custAddress = res.getString("address");
+            int custId = res.getInt("cust_id");
+            String custName = res.getString("name");
+            String custEmail = res.getString("email");
+            String custAddress = res.getString("address");
 
-                String itemName = res.getString("item_title");
-                String itemDescription = res.getString("description");
-                double itemPrice = res.getDouble("price");
-                String itemSize = res.getString("size");
+            String itemName = res.getString("item_title");
+            String itemDescription = res.getString("description");
+            double itemPrice = res.getDouble("price");
+            String itemSize = res.getString("size");
 
-                Date OrderDate = res.getDate("datetime");
-                double total = res.getDouble("total");
-                String payType = res.getString("payment_type");
-             
+            Date OrderDate = res.getDate("datetime");
+            double total = res.getDouble("total");
+            String payType = res.getString("payment_type");
 
-                jTextArea1.append("**********************LAPIZZERIA*****************" + "\n\n");
-                jTextArea1.append("Restaurant Address: " + Resaddress + "\n");
-                jTextArea1.append("Restaurant contact: " + Rescontact + "\n\n");
+            jTextArea1.setText("**********************LAPIZZERIA*****************" + "\n\n");
+           jTextArea1.append( "Restaurant Address: " + Resaddress + "\n"
+           +"Restaurant contact: " + Rescontact + "\n\n"
 
-                jTextArea1.append("**********Customer Details***********************" + "\n"
-                        + "CustomerID: "+custId + "\n"
-                        + "Name: " +custName + "\n"
-                        + "Email: " +custEmail + "\n"
-                        + "Customer Address: " + custAddress + "\n\n");
-        jTextArea1.append( "*************Item details*******************************" + "\n"
-                        + "Item : " + itemName + "\n"
-                        + "description: " + itemDescription + "\n"
-                        + "price: " + itemPrice + "\n"
-                        + "size: " + itemSize + "\n\n"
-                        + "*************Payment details*****************************" + "\n"
-                        + "Date Time: " + OrderDate + "\n"
-                        + "Total: " + total + "\n"
-                        + "Payment type: " + payType + "\n\n"
-     //   jTextArea2.setText(ResReceipt.jTextArea1.getText()+"\n"
-                        +"*************Thanks for your order**********************");
-       //     }
-            //conn.close();
+            + "**********Customer Details***********************" + "\n"
+                    + "CustomerID: " + custId + "\n"
+                    + "Name: " + custName + "\n"
+                    + "Email: " + custEmail + "\n"
+                    + "Customer Address: " + custAddress + "\n\n"
+            +"*************Item details*******************************" + "\n"
+                    + "Item : " + itemName + "\n"
+                    + "description: " + itemDescription + "\n"
+                    + "price: " + itemPrice + "\n"
+                    + "size: " + itemSize + "\n\n"
+                    + "*************Payment details*****************************" + "\n"
+                    + "Date Time: " + OrderDate + "\n"
+                    + "Total: " + total + "\n"
+                    + "Payment type: " + payType + "\n\n"
+                    //   jTextArea2.setText(ResReceipt.jTextArea1.getText()+"\n"
+                    + "*************Thanks for your order**********************");
+           }
+           
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "rec" + e);
         }
@@ -214,17 +210,16 @@ public class ResReceipt extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(273, 273, 273)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -254,6 +249,13 @@ public class ResReceipt extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane1)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -272,14 +274,7 @@ public class ResReceipt extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane1))))
+                        .addGap(9, 9, 9)))
                 .addGap(25, 25, 25))
         );
 
@@ -313,33 +308,47 @@ public class ResReceipt extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 // Send to Restaurant////pst.setInt(3, Integer.parseInt(jTextArea1.getText()));
-    //   int row=0;
-
         try {
-     String qry = "INSERT into Receipt "
-  + "(cust_id, basket_id,cust_name,cust_address,cust_email,item_name,item_desc,item_price,item_size,payment_date,payment_type,total ) "
-             + "Values(?,?,?,?,?,?,?,?,?,?,?,?)";
+            String qry = "INSERT into Receipt "
+                    + "(cust_id, basket_id,cust_name,cust_address,cust_email,item_name,item_desc,item_price,item_size,payment_date,payment_type,total) "
+                    + "Values(?,?,?,?,?,?,?,?,?,?,?,?)";
             pst = conn.prepareStatement(qry);
-     
-      while (res.next()) {
-        pst.setString(1, jTextArea1.getText());
-        pst.setString(2, jTextArea1.getText());
-        pst.setString(3, jTextArea1.getText());//cust name
-        pst.setString(4,jTextArea1.getText());
-        pst.setString(5, jTextArea1.getText());//item name
-        pst.setString(6, jTextArea1.getText());
-        pst.setString(7, jTextArea1.getText());//desc
-        pst.setString(8, jTextArea1.getText());
-        pst.setString(9, jTextArea1.getText());//size
-        pst.setString(10, jTextArea1.getText());//date
-        pst.setString(11, jTextArea1.getText());//type
-        pst.setString(12, jTextArea1.getText());
-        pst.execute();
-                JOptionPane.showMessageDialog(null, "Order has been sent");
-         }
-            
-        } catch (SQLException  e) {
-  JOptionPane.showMessageDialog(null, "There's an error in sending order"+e);
+         
+         if (res.next()) {
+
+                String custId = res.getString();
+                jTextArea1.setText(custId);
+                String basketId = jTextArea1.getText();
+                String custName =  jTextArea1.getText();
+                String custAddress =  jTextArea1.getText();
+                String custEmail =  jTextArea1.getText();
+                String ItemName =  jTextArea1.getText();
+                String itemDesc = (String) jTextArea1.getText();
+                String itemPrice = (String) jTextArea1.getText();
+                String itemSize = (String) jTextArea1.getText();
+                String paymDate = (String) jTextArea1.getText();
+                String paymType = (String) jTextArea1.getText();
+                String Total = (String) jTextArea1.getText();
+
+                pst.setString(1, custId);
+                pst.setString(2, basketId);
+                pst.setString(3, custName);
+                pst.setString(4, custAddress);
+                pst.setString(5, custEmail);
+                pst.setString(6, ItemName);
+                pst.setString(7, itemDesc);
+                pst.setString(8, itemPrice);
+                pst.setString(9, itemSize);
+                pst.setString(10, paymDate);
+                pst.setString(11, paymType);
+                pst.setString(12, Total);
+                pst.execute();
+
+          }
+            JOptionPane.showMessageDialog(null, "Order has been sent");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "There's an error in sending order" + e);
         }
 
 
