@@ -26,10 +26,10 @@ public class Payment extends javax.swing.JFrame {
     PreparedStatement pst;
     ResultSet res;
     String qry;
-
-    public static int BasketId;
+   
     public static int CustomerId;
-
+    public static int PaymentId;
+ 
     public Payment() {
         super();
         initComponents();
@@ -331,8 +331,6 @@ public class Payment extends javax.swing.JFrame {
  qry = "INSERT INTO `payment` (DateTime,total,`payment_type`,cust_id) VALUES (CURRENT_TIMESTAMP,?,?,?)";
         try {
             pst = conn.prepareStatement(qry);
-            
-
         //    pst.setTimestamp(1, new Timestamp(1567296000000L));
             pst.setDouble(1, Double.parseDouble(jTextField2.getText()));
             jRadioButton3.setActionCommand("Cash Payment");

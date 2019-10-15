@@ -1,5 +1,6 @@
 package foodsystem_lapizzeria;
 
+import foodsystem_lapizzeria.Payment;
 import foodsystem_lapizzeria.Login;
 import foodsystem_lapizzeria.Shopping_Basket;
 import Foodsystem_Admin.AdminPage;
@@ -13,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +36,7 @@ public class ResReceipt extends javax.swing.JFrame {
     String qry;
 
     public static int CustomerId;
+    public static int PaymentId;
 
     public ResReceipt() {
         initComponents();
@@ -44,10 +47,8 @@ public class ResReceipt extends javax.swing.JFrame {
     }
 
     public final void ResReceipt() {
-
-       
-            //  DefaultListModel model = new DefaultListModel();
-            // System.out.println("JList item size: " + list.getModel().getSize());
+        //  DefaultListModel model = new DefaultListModel();
+        // System.out.println("JList item size: " + list.getModel().getSize());
 
 //        System.out.println("Reading all list items:");
 //        System.out.println("-----------------------");
@@ -55,66 +56,57 @@ public class ResReceipt extends javax.swing.JFrame {
 //            Object item = list.getModel().getElementAt(i);
 //            System.out.println("Item = " + item);
 //        }
-//    }
-            qry = "select\n"
-                    + "c.cust_id, c.name, c.contact, c.address, c.email, \n"
-                    + " s.*,\n"
-                    + "p.Total, p.DateTime, p.Payment_type,\n"
-                    + "r.res_address,r.res_contact\n"
-                    + "from customer c \n"
-                    + "INNER JOIN shopping_basket s on c.cust_id= s.cust_id\n"
-                    + "Inner Join payment p \n"
-                    + "INNER JOIN Restaurant_Table r\n"
-                    + "where c.cust_id =?\n"
-                    + "GROUP by s.basket_id \n"
-                    + "Order by p.total ";
- try {
+//    }  
+        try {
+            qry = "SELECT s.*, c.*,p.Payment_type, p.DateTime,p.Total from shopping_basket s INNER JOIN customer c ON c.cust_id=s.cust_id \n"
+                    + "INNER JOIN payment p \n"
+                    + " where p.PaymentId=? or c.cust_id=?\n"
+                    + " GROUP by s.basket_id  \n"
+                    + " ORDER BY p.total";
+
             pst = conn.prepareStatement(qry);
-            pst.setInt(1, Login.CustomerId);
+            pst.setInt(1, PaymentId);
+            pst.setInt(2, Login.CustomerId);
             res = pst.executeQuery();
 
-          if (res.next()) {
-            String Resaddress = res.getString("res_address");
-            String Rescontact = res.getString("res_contact");
+//System.out.println(PaymentId);
+            jTextArea1.append("*********************LAPIZZERIA*****************" + "\n");
 
-            int custId = res.getInt("cust_id");
-            String custName = res.getString("name");
-            String custEmail = res.getString("email");
-            String custAddress = res.getString("address");
+            if (res.next()) {
+                String custname = res.getString("name");
+                String custAddress = res.getString("address");
+                String custContact = res.getString("contact");
 
-            String itemName = res.getString("item_title");
-            String itemDescription = res.getString("description");
-            double itemPrice = res.getDouble("price");
-            String itemSize = res.getString("size");
+                jTextArea1.append("Customer Name: " + custname + "\n"
+                        + "Address:" + custAddress + "\n"
+                        + "Contact:" + custContact + "\n");
 
-            Date OrderDate = res.getDate("datetime");
-            double total = res.getDouble("total");
-            String payType = res.getString("payment_type");
+                String pyType = res.getString("payment_type");
+                String date = res.getString("DateTime");
+                Double total = res.getDouble("total");
 
-            jTextArea1.setText("**********************LAPIZZERIA*****************" + "\n\n");
-           jTextArea1.append( "Restaurant Address: " + Resaddress + "\n"
-           +"Restaurant contact: " + Rescontact + "\n\n"
+                jTextArea1.append(" ***************Payment Options**************" + "\n"
+                        + "Payment Type : " + pyType + "\n"
+                        + "Order Date Time:" + date + "\n"
+                        + "Order Total: " + total + "\n");
+            }
 
-            + "**********Customer Details***********************" + "\n"
-                    + "CustomerID: " + custId + "\n"
-                    + "Name: " + custName + "\n"
-                    + "Email: " + custEmail + "\n"
-                    + "Customer Address: " + custAddress + "\n\n"
-            +"*************Item details*******************************" + "\n"
-                    + "Item : " + itemName + "\n"
-                    + "description: " + itemDescription + "\n"
-                    + "price: " + itemPrice + "\n"
-                    + "size: " + itemSize + "\n\n"
-                    + "*************Payment details*****************************" + "\n"
-                    + "Date Time: " + OrderDate + "\n"
-                    + "Total: " + total + "\n"
-                    + "Payment type: " + payType + "\n\n"
-                    //   jTextArea2.setText(ResReceipt.jTextArea1.getText()+"\n"
-                    + "*************Thanks for your order**********************");
-           }
-           
+            while (res.next()) {
+                String itemt = res.getString("item_title");
+                String desc = res.getString("description");
+                Double price = res.getDouble("price");
+                String size = res.getString("size");
+
+                jTextArea1.append("**************Items Details*******************" + "\n"
+                        + "Item Name: " + itemt + " \n "
+                        + "Description: " + desc + " \n "
+                        + "Price: " + price + "\n"
+                        + "Size: " + size + "\n");
+                // System.out.print(res.getString(i) + "   "); 
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "rec" + e);
+            System.out.println(e.getMessage());
         }
 
         // dispose();
@@ -197,6 +189,7 @@ public class ResReceipt extends javax.swing.JFrame {
 
         jLabel3.setBackground(new java.awt.Color(255, 51, 51));
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
@@ -210,16 +203,17 @@ public class ResReceipt extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(260, 260, 260)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)))
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -298,7 +292,6 @@ public class ResReceipt extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         new Payment().setVisible(true);
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -313,38 +306,29 @@ public class ResReceipt extends javax.swing.JFrame {
                     + "(cust_id, basket_id,cust_name,cust_address,cust_email,item_name,item_desc,item_price,item_size,payment_date,payment_type,total) "
                     + "Values(?,?,?,?,?,?,?,?,?,?,?,?)";
             pst = conn.prepareStatement(qry);
-         
-         if (res.next()) {
+            res = pst.executeQuery();
+            ArrayList<String> arrayList = new ArrayList<String>();
+            while (res.next()) {
+                int i = 1;
+                int numberOfColumns = 0;
+                while (i <= numberOfColumns) {
+                    arrayList.add(res.getString(i++));
+                }
+                System.out.println(res.getString("cust_id"));
+                System.out.println(res.getString("basket_id"));
+                System.out.println(res.getString("cust_name"));
+                System.out.println(res.getString("cust_address"));
+                System.out.println(res.getString("cust_email"));
+                System.out.println(res.getString("item_name"));
+                System.out.println(res.getString("item_name"));
+                System.out.println(res.getString("item_name"));
+                System.out.println(res.getString("item_name"));
+                System.out.println(res.getString("item_name"));
+                System.out.println(res.getString("item_name"));
+                System.out.println(res.getString("item_name"));
+                System.out.println(res.getString("item_name"));
 
-                String custId = res.getString();
-                jTextArea1.setText(custId);
-                String basketId = jTextArea1.getText();
-                String custName =  jTextArea1.getText();
-                String custAddress =  jTextArea1.getText();
-                String custEmail =  jTextArea1.getText();
-                String ItemName =  jTextArea1.getText();
-                String itemDesc = (String) jTextArea1.getText();
-                String itemPrice = (String) jTextArea1.getText();
-                String itemSize = (String) jTextArea1.getText();
-                String paymDate = (String) jTextArea1.getText();
-                String paymType = (String) jTextArea1.getText();
-                String Total = (String) jTextArea1.getText();
-
-                pst.setString(1, custId);
-                pst.setString(2, basketId);
-                pst.setString(3, custName);
-                pst.setString(4, custAddress);
-                pst.setString(5, custEmail);
-                pst.setString(6, ItemName);
-                pst.setString(7, itemDesc);
-                pst.setString(8, itemPrice);
-                pst.setString(9, itemSize);
-                pst.setString(10, paymDate);
-                pst.setString(11, paymType);
-                pst.setString(12, Total);
-                pst.execute();
-
-          }
+            }
             JOptionPane.showMessageDialog(null, "Order has been sent");
 
         } catch (SQLException e) {
