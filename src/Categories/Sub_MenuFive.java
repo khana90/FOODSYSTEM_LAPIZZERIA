@@ -14,10 +14,10 @@ import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
- *
+ *  Drinks
  * @author A
  */
-public class Sub_MenuFive extends javax.swing.JFrame {
+public final class Sub_MenuFive extends javax.swing.JFrame {
     Connection conn;
     PreparedStatement pst;
     ResultSet res;
@@ -27,19 +27,21 @@ public class Sub_MenuFive extends javax.swing.JFrame {
         conn=ProConnection.ConnectDB();
         subMenuListFive();
         subMenuTableFive();
-        this.setLocationRelativeTo(null);// 
+        
+        this.setLocationRelativeTo(null);
     }
 
     public ArrayList <SubMenu> subMenuListFive(){
         ArrayList <SubMenu> subMenuList5 = new ArrayList();
         
         try{
-            String qry="select i.item_title Drinks, i.Description ,i.Price ,i.Size "
+            String qry="select i.item_title Drinks, i.Description, i.Price, i.Size "
                     + "FROM submenu s, itemmenu i where s.menu_category in ('drinks') AND i.sub_id in('19')";
             pst=conn.prepareStatement(qry);
             res=pst.executeQuery();
         }catch(Exception e){
-            
+        JOptionPane.showMessageDialog(null, e);
+        
         }
         
         return subMenuList5;
@@ -47,9 +49,9 @@ public class Sub_MenuFive extends javax.swing.JFrame {
     
     public void subMenuTableFive(){
         ArrayList<SubMenu> list= subMenuListFive();
+           submenu5_tbl.setModel(DbUtils.resultSetToTableModel(res));
         DefaultTableModel model= (DefaultTableModel)submenu5_tbl.getModel();
-        submenu5_tbl.setModel(DbUtils.resultSetToTableModel(res));
-        
+     
         Object row[]= new Object [2];
     for (int i =0;i<list.size();i++){
         row[0]=list.get(i).getTitle();

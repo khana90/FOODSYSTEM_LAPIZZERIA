@@ -7,6 +7,7 @@ import Foodsystem_Admin.AdminPage;
 import static Foodsystem_Admin.AdminPage.jListAdmin;
 import static Foodsystem_Admin.AdminPage.jPanel4;
 import Foodsystem_Admin.Admin_Login;
+//import apple.laf.JRSUIConstants;
 import java.awt.HeadlessException;
 import java.awt.List;
 import java.sql.Connection;
@@ -22,6 +23,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import static javax.swing.text.StyleConstants.Size;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -58,19 +60,20 @@ public class ResReceipt extends javax.swing.JFrame {
 //        }
 //    }  
         try {
-            qry = "SELECT s.*, c.*,p.Payment_type, p.DateTime,p.Total from shopping_basket s INNER JOIN customer c ON c.cust_id=s.cust_id \n"
+            qry = "SELECT s.item_title,s.description,s.price,s.size, "
+                    + "c.name,c.email,c.address,c.contact,"
+                    + "p.paymentId,p.Payment_type, p.DateTime,p.Total from shopping_basket s INNER JOIN customer c ON c.cust_id=s.cust_id \n"
                     + "INNER JOIN payment p \n"
-                    + " where p.PaymentId=? or c.cust_id=?\n"
+                    + " where c.cust_id=? and PaymentId =(SELECT Max(PaymentId) from payment) \n"
                     + " GROUP by s.basket_id  \n"
                     + " ORDER BY p.total";
 
             pst = conn.prepareStatement(qry);
-            pst.setInt(1, PaymentId);
-            pst.setInt(2, Login.CustomerId);
+            //  pst.setInt(1, PaymentId);
+            pst.setInt(1, Login.CustomerId);
             res = pst.executeQuery();
 
-//System.out.println(PaymentId);
-            jTextArea1.append("*********************LAPIZZERIA*****************" + "\n");
+            jTextArea1.append("*******************LAPIZZERIA*****************" + "\n\n");
 
             if (res.next()) {
                 String custname = res.getString("name");
@@ -101,9 +104,10 @@ public class ResReceipt extends javax.swing.JFrame {
                         + "Item Name: " + itemt + " \n "
                         + "Description: " + desc + " \n "
                         + "Price: " + price + "\n"
-                        + "Size: " + size + "\n");
-                // System.out.print(res.getString(i) + "   "); 
+                        + "Size: " + size + "\n\n");
             }
+            jTextArea1.append("************Thanks for Choosing Us***********");
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "rec" + e);
             System.out.println(e.getMessage());
@@ -211,8 +215,8 @@ public class ResReceipt extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,7 +266,7 @@ public class ResReceipt extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(55, 55, 55)
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addGap(40, 40, 40)
                         .addComponent(jLabel2)
@@ -300,41 +304,34 @@ public class ResReceipt extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-// Send to Restaurant////pst.setInt(3, Integer.parseInt(jTextArea1.getText()));
+    //Send to Restaurant////pst.setInt(3, Integer.parseInt(jTextArea1.getText()));
+        //  ArrayList<String> arrayList = new ArrayList<String>();
+        //                int i = 1;
+//                int numberOfColumns = 0;
+//                while (i <= numberOfColumns) {
+//                arrayList.add(res.getString(i++));
+        int row = 0;
         try {
-            String qry = "INSERT into Receipt "
-                    + "(cust_id, basket_id,cust_name,cust_address,cust_email,item_name,item_desc,item_price,item_size,payment_date,payment_type,total) "
-                    + "Values(?,?,?,?,?,?,?,?,?,?,?,?)";
-            pst = conn.prepareStatement(qry);
-            res = pst.executeQuery();
-            ArrayList<String> arrayList = new ArrayList<String>();
-            while (res.next()) {
-                int i = 1;
-                int numberOfColumns = 0;
-                while (i <= numberOfColumns) {
-                    arrayList.add(res.getString(i++));
-                }
-                System.out.println(res.getString("cust_id"));
-                System.out.println(res.getString("basket_id"));
-                System.out.println(res.getString("cust_name"));
-                System.out.println(res.getString("cust_address"));
-                System.out.println(res.getString("cust_email"));
-                System.out.println(res.getString("item_name"));
-                System.out.println(res.getString("item_name"));
-                System.out.println(res.getString("item_name"));
-                System.out.println(res.getString("item_name"));
-                System.out.println(res.getString("item_name"));
-                System.out.println(res.getString("item_name"));
-                System.out.println(res.getString("item_name"));
-                System.out.println(res.getString("item_name"));
+  String qry = "INSERT into Receipt (item_title,item_desc,item_price,item_size,cust_id,cust_name,cust_email,cust_address,cust_contact,paymentId,payment_type,DateTime,Total)\n" +
+"\n" +
+"SELECT s.item_title,s.description,s.price,s.size, \n" +
+"c.cust_id,c.name,c.email,c.address,c.contact,\n" +
+"p.PaymentId,p.Payment_type, p.DateTime,p.Total from shopping_basket s ,customer c, payment p\n" +
+"      where c.cust_id=137 and PaymentId =(SELECT Max(PaymentId) from payment)"
+                    + "group by s.basket_id"
+                   + "Order by p.total";
 
-            }
+            pst = conn.prepareStatement(qry);
+            
+     
+            pst.execute();
             JOptionPane.showMessageDialog(null, "Order has been sent");
+          //  }
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "There's an error in sending order" + e);
+            System.out.print(e.getMessage());
         }
-
 
     }//GEN-LAST:event_jButton3ActionPerformed
 

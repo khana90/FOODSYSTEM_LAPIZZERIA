@@ -26,22 +26,23 @@ public class Sub_MenuTwo extends javax.swing.JFrame {
     String qry;
 
     /**
-     * Creates new form Sub_MenuTwo
+     * Kebabs Creates new form Sub_MenuTwo
      */
     public Sub_MenuTwo() {
         initComponents();
         conn = ProConnection.ConnectDB();
-        subMenuTable2();
         subMenuList2();
-         this.setLocationRelativeTo(null);
+        subMenuTable2();
+
+        this.setLocationRelativeTo(null);
     }
 
     public ArrayList<SubMenu> subMenuList2() {
         ArrayList<SubMenu> subMenuList2 = new ArrayList<>();
         try {
 
-            qry = "select i.item_title Kebabs, i.description ,i.price ,i.size "
-                    + "FROM  itemmenu i where i.sub_id in('17')  ";
+            qry = "select i.item_title Kebabs, i.Description ,i.Price ,i.Size "
+                    + "FROM submenu s, itemmenu i where s.menu_category in ('kebabs') AND i.sub_id in('17') ";
             pst = conn.prepareStatement(qry);
             res = pst.executeQuery();
 
@@ -52,13 +53,13 @@ public class Sub_MenuTwo extends javax.swing.JFrame {
 //               subMenuList2.add(submenu);  
             //   }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null," menuTow "+ e);
 
         }
         return subMenuList2;
     }
 
     //render data into the jtable
-
     public void subMenuTable2() {
         ArrayList<SubMenu> list2 = subMenuList2();
         category_table2.setModel(DbUtils.resultSetToTableModel(res));
@@ -204,7 +205,7 @@ public class Sub_MenuTwo extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         int row = category_table2.getSelectedRow();
-      //  int col=category_table2.getSelectedColumn();
+        //  int col=category_table2.getSelectedColumn();
         //int rows = category_table2.getRowCount();
         TableModel mdl = category_table2.getModel();
 
@@ -223,7 +224,7 @@ public class Sub_MenuTwo extends javax.swing.JFrame {
             pst.setString(4, size);
             pst.setInt(5, Login.CustomerId);
             pst.execute();
-            
+
             JOptionPane.showMessageDialog(null, "Added to basket !");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "somthing is wrong: " + e);

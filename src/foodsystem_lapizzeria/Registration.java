@@ -233,14 +233,13 @@ public class Registration extends javax.swing.JFrame {
           String name =tfname.getText();
            String username= tfusername.getText();
                  
-         Scanner sc = new Scanner (System.in);
+    //     Scanner sc = new Scanner (System.in);
    //      System.out.println("name:");
-         
-         
+
          if(tfname.getText().trim().isEmpty() || tfusername.getText().trim().isEmpty() || Email.getText().trim().isEmpty()){
              
              JOptionPane.showMessageDialog(null, "Field is Empty","Empty Fields",2);
-         }
+         }else
          
          if(tfpassword.equals(Pass2)){
              JOptionPane.showMessageDialog(null, "Password Doesn't Match","Password Verification",2);

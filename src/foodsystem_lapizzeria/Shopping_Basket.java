@@ -63,7 +63,6 @@ public class Shopping_Basket extends javax.swing.JFrame {
 
         try {
             pst = conn.prepareStatement(qry);
-
             pst.setInt(1, Login.CustomerId);
             //  pst.setInt(2,BasketId);
             res = pst.executeQuery();

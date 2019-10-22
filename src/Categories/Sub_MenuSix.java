@@ -1,4 +1,3 @@
-
 package Categories;
 
 import foodsystem_lapizzeria.Login;
@@ -19,47 +18,48 @@ import net.proteanit.sql.DbUtils;
  * @author A
  */
 public class Sub_MenuSix extends javax.swing.JFrame {
+
     Connection conn;
     PreparedStatement pst;
     ResultSet res;
-    
+
     public Sub_MenuSix() {
         initComponents();
-        conn=ProConnection.ConnectDB();
+        conn = ProConnection.ConnectDB();
         subMenuListSix();
         subMenuTableSix();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
     }
 
-    public ArrayList <SubMenu> subMenuListSix(){
-        ArrayList <SubMenu> subMenuListFour = new ArrayList();
-        
-        try{
-            String qry="select i.item_title Icrecreams, i.description ,i.price ,i.size "
+    public ArrayList<SubMenu> subMenuListSix() {
+        ArrayList<SubMenu> subMenuListFour = new ArrayList();
+
+        try {
+            String qry = "select i.item_title Icrecreams, i.description ,i.price ,i.size "
                     + "FROM submenu s, itemmenu i where s.menu_category in ('ice creams') AND i.sub_id in('20')";
-            pst=conn.prepareStatement(qry);
-            res=pst.executeQuery();
-        }catch(Exception e){
-            
+            pst = conn.prepareStatement(qry);
+            res = pst.executeQuery();
+        } catch (Exception e) {
+
         }
-        
+
         return subMenuListFour;
     }
-    
-    public void subMenuTableSix(){
-        ArrayList<SubMenu> list= subMenuListSix();
-        DefaultTableModel model= (DefaultTableModel)submenu6_tbl.getModel();
+
+    public void subMenuTableSix() {
+        ArrayList<SubMenu> list = subMenuListSix();
+        DefaultTableModel model = (DefaultTableModel) submenu6_tbl.getModel();
         submenu6_tbl.setModel(DbUtils.resultSetToTableModel(res));
-        
-        Object row[]= new Object [2];
-    for (int i =0;i<list.size();i++){
-        row[0]=list.get(i).getTitle();
-        row[1]=list.get(i).getMenu_category();
-        model.addRow(row);
-        
+
+        Object row[] = new Object[2];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getTitle();
+            row[1] = list.get(i).getMenu_category();
+            model.addRow(row);
+
+        }
     }
-    }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -180,32 +180,33 @@ public class Sub_MenuSix extends javax.swing.JFrame {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
-        int row= submenu6_tbl.getSelectedRow();
-        try{
-            String qry="insert into shopping_basket(item_title,description,price,size,cust_id) values(?,?,?,?,?)";
-            pst=conn.prepareStatement(qry);
-            String itemtitle=(String)submenu6_tbl.getValueAt(row, 0);
-            String desc= (String)submenu6_tbl.getValueAt(row,1);
-            Double price= (Double)submenu6_tbl.getValueAt(row, 2);
-            String size=(String)submenu6_tbl.getValueAt(row, 3);
-            
+        int row = submenu6_tbl.getSelectedRow();
+        try {
+            String qry = "INSERT into shopping_basket(item_title,description,price,size,cust_id) values(?,?,?,?,?)";
+            pst = conn.prepareStatement(qry);
+            String itemtitle = (String) submenu6_tbl.getValueAt(row, 0);
+            String desc = (String) submenu6_tbl.getValueAt(row, 1);
+            Double price = (Double) submenu6_tbl.getValueAt(row, 2);
+            String size = (String) submenu6_tbl.getValueAt(row, 3);
+
             pst.setString(1, itemtitle);
             pst.setString(2, desc);
             pst.setDouble(3, price);
             pst.setString(4, size);
             pst.setInt(5, Login.CustomerId);
             pst.execute();
-            
+
             JOptionPane.showMessageDialog(null, "Added To Basket");
-        }catch(Exception e){
-            
-        }finally{
-            
-        }try{
+        } catch (Exception e) {
+
+        } finally {
+
+        }
+        try {
             pst.close();
             res.close();
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
