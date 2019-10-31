@@ -4,7 +4,6 @@ import foodsystem_lapizzeria.Shopping_Basket;
 import foodsystem_lapizzeria.Login;
 import Categories.Sub_MenuOne;
 import Categories.Sub_MenuTwo;
-import Foodsystem_Admin.AdminPage;
 import static foodsystem_lapizzeria.Payment.jTextField2;
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
@@ -35,9 +34,6 @@ public class ResOrder extends javax.swing.JFrame {
     ResultSet res;
     String qry, qry2;
     
-    public static int OrderId;
-    public static int basketId;
-    public static int CustomerId;
     
 //    public ResOrder() {
 //        initComponents();

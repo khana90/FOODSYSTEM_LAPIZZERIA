@@ -3,8 +3,6 @@ package foodsystem_lapizzeria;
 import foodsystem_lapizzeria.Payment;
 import foodsystem_lapizzeria.Login;
 import foodsystem_lapizzeria.Shopping_Basket;
-import Foodsystem_Admin.AdminPage;
-import static Foodsystem_Admin.AdminPage.jListAdmin;
 import static Foodsystem_Admin.AdminPage.jPanel4;
 import Foodsystem_Admin.Admin_Login;
 //import apple.laf.JRSUIConstants;
@@ -24,7 +22,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import static javax.swing.text.StyleConstants.Size;
-import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -39,6 +36,7 @@ public class ResReceipt extends javax.swing.JFrame {
 
     public static int CustomerId;
     public static int PaymentId;
+    public static int BasketId;
 
     public ResReceipt() {
         initComponents();
@@ -48,73 +46,55 @@ public class ResReceipt extends javax.swing.JFrame {
 
     }
 
-    public final void ResReceipt() {
-        //  DefaultListModel model = new DefaultListModel();
-        // System.out.println("JList item size: " + list.getModel().getSize());
+    public void ResReceipt() {
 
-//        System.out.println("Reading all list items:");
-//        System.out.println("-----------------------");
-//        for (int i = 0; i < list.getModel().getSize(); i++) {
-//            Object item = list.getModel().getElementAt(i);
-//            System.out.println("Item = " + item);
-//        }
-//    }  
         try {
-            qry = "SELECT s.item_title,s.description,s.price,s.size, "
-                    + "c.name,c.email,c.address,c.contact,"
-                    + "p.paymentId,p.Payment_type, p.DateTime,p.Total from shopping_basket s INNER JOIN customer c ON c.cust_id=s.cust_id \n"
-                    + "INNER JOIN payment p \n"
-                    + " where c.cust_id=? and PaymentId =(SELECT Max(PaymentId) from payment) \n"
-                    + " GROUP by s.basket_id  \n"
-                    + " ORDER BY p.total";
+
+            DefaultListModel model = new DefaultListModel();
+            qry = "SELECT s.*,c.*,\n"
+                    + "p.* from shopping_basket s INNER JOIN customer c ON c.cust_id=s.cust_id\n"
+                    + "INNER JOIN payment p\n"
+                    + "where c.cust_id=? and p.paymentId = (SELECT max(paymentId) from payment) \n"
+                    + "      GROUP by s.basket_id \n"
+                    + "      ORDER BY p.total";
 
             pst = conn.prepareStatement(qry);
-            //  pst.setInt(1, PaymentId);
             pst.setInt(1, Login.CustomerId);
+            //   pst.setInt(2, Shopping_Basket.BasketId);
             res = pst.executeQuery();
 
-            jTextArea1.append("*******************LAPIZZERIA*****************" + "\n\n");
-
             if (res.next()) {
-                String custname = res.getString("name");
-                String custAddress = res.getString("address");
-                String custContact = res.getString("contact");
-
-                jTextArea1.append("Customer Name: " + custname + "\n"
-                        + "Address:" + custAddress + "\n"
-                        + "Contact:" + custContact + "\n");
-
-                String pyType = res.getString("payment_type");
-                String date = res.getString("DateTime");
-                Double total = res.getDouble("total");
-
-                jTextArea1.append(" ***************Payment Options**************" + "\n"
-                        + "Payment Type : " + pyType + "\n"
-                        + "Order Date Time:" + date + "\n"
-                        + "Order Total: " + total + "\n");
+                model.addElement("<<<<CUSTOMER Address>>>");
+                model.addElement("Customer Id: " + res.getInt("cust_id"));
+                model.addElement("Customer Name: " + res.getString("name"));
+                model.addElement("Customer Email: " + res.getString("email"));
+                model.addElement("Customer Address: " + res.getString("address"));
+                model.addElement("Customer Contact: " + res.getString("contact"));
+                model.addElement("<<<<PAYMENT OPTION>>>>");
+                //  model.addElement("Payment Id: " + res.getInt("paymentId"));
+                model.addElement("Payment Type: " + res.getString("payment_type"));
+                model.addElement("Date and Time: " + res.getString("DateTime"));
+                model.addElement("Sub Total: " + res.getString("total"));
             }
+            jList1.setModel(model);
 
             while (res.next()) {
-                String itemt = res.getString("item_title");
-                String desc = res.getString("description");
-                Double price = res.getDouble("price");
-                String size = res.getString("size");
+                model.addElement("<CUSTOMER ORDER");
+                model.addElement("Item Name: " + res.getString("item_title"));
+                model.addElement("Item description: " + res.getString("description"));
+                model.addElement("Item Price: " + res.getString("price"));
+                model.addElement("Item Size: " + res.getString("size"));
 
-                jTextArea1.append("**************Items Details*******************" + "\n"
-                        + "Item Name: " + itemt + " \n "
-                        + "Description: " + desc + " \n "
-                        + "Price: " + price + "\n"
-                        + "Size: " + size + "\n\n");
             }
-            jTextArea1.append("************Thanks for Choosing Us***********");
+
+            jList1.setModel(model);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "rec" + e);
+            JOptionPane.showMessageDialog(null, "error with list fetchData" + e);
             System.out.println(e.getMessage());
         }
-
-        // dispose();
     }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -212,16 +192,16 @@ public class ResReceipt extends javax.swing.JFrame {
                         .addGap(260, 260, 260)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addGap(0, 289, Short.MAX_VALUE)
+                            .addGap(0, 211, Short.MAX_VALUE)
                             .addComponent(jLabel2)
                             .addGap(125, 125, 125))
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -304,35 +284,38 @@ public class ResReceipt extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    //Send to Restaurant////pst.setInt(3, Integer.parseInt(jTextArea1.getText()));
-        //  ArrayList<String> arrayList = new ArrayList<String>();
-        //                int i = 1;
-//                int numberOfColumns = 0;
-//                while (i <= numberOfColumns) {
-//                arrayList.add(res.getString(i++));
-        int row = 0;
-        try {
-  String qry = "INSERT into Receipt (item_title,item_desc,item_price,item_size,cust_id,cust_name,cust_email,cust_address,cust_contact,paymentId,payment_type,DateTime,Total)\n" +
-"\n" +
-"SELECT s.item_title,s.description,s.price,s.size, \n" +
-"c.cust_id,c.name,c.email,c.address,c.contact,\n" +
-"p.PaymentId,p.Payment_type, p.DateTime,p.Total from shopping_basket s ,customer c, payment p\n" +
-"      where c.cust_id=137 and PaymentId =(SELECT Max(PaymentId) from payment)"
-                    + "group by s.basket_id"
-                   + "Order by p.total";
+        //Send to Restaurant
+// for(int i = 0; i < jList1.getModel().getSize(); i++)
+//       {         item = (String)jList1.getModel().getElementAt(i);
+//        try{
+        String item = "";
 
-            pst = conn.prepareStatement(qry);
-            
-     
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Order has been sent");
-          //  }
+        for (int i = 0; i < jList1.getModel().getSize(); i++) {
+            item = (String) jList1.getModel().getElementAt(i);
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "There's an error in sending order" + e);
-            System.out.print(e.getMessage());
+            String qry = "INSERT into Receipt (item_title,item_desc,item_price,item_size,cust_id,cust_name,cust_email,cust_address,cust_contact,payment_type,DateTime,Total)\n"
+                    + "SELECT s.item_title,s.description,s.price,s.size, \n"
+                    + "c.cust_id,c.name,c.email,c.address,c.contact,\n"
+                    + "p.Payment_type, p.DateTime,p.Total from shopping_basket s ,customer c, payment p\n"
+                    + "      where c.cust_id=? and paymentId= (select Max(paymentId) from payment) \n"
+                    + "      GROUP by s.basket_id\n"
+                    + "      ORDER by p.Total";
+            try {
+                pst = conn.prepareStatement(qry);
+               pst.setInt(1, Login.CustomerId);
+            //   pst.setInt(2, Shopping_Basket.CustomerId);
+                pst.executeUpdate();
+                
+                pst.setString(1, item);
+
+                pst.execute();
+        
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "There's an error in sending order" + e);
+                System.out.print(e.getMessage());
+            }
         }
-
+          JOptionPane.showMessageDialog(null, "Order has been sent");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed

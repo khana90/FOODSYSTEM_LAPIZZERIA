@@ -336,7 +336,6 @@ public class Payment extends javax.swing.JFrame {
             jRadioButton3.setActionCommand("Cash Payment");
             pst.setString(2, buttonGroup1.getSelection().getActionCommand());
             pst.setInt(3, Login.CustomerId);
-         //   pst.setInt(5,Shopping_Basket.BasketId); 
 
             pst.execute();
 
