@@ -29,6 +29,7 @@ public class Payment extends javax.swing.JFrame {
    
     public static int CustomerId;
     public static int PaymentId;
+    
  
     public Payment() {
         super();
@@ -347,7 +348,7 @@ public class Payment extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton3MouseClicked
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-if (jRadioButton3.isSelected()){
+            if (jRadioButton3.isSelected()){
                 new ResReceipt().setVisible(true);
                 //                this.dispose();
 }else{
