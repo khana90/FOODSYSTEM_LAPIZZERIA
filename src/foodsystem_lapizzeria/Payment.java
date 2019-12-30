@@ -48,12 +48,12 @@ public class Payment extends javax.swing.JFrame {
         int month = cal.get(Calendar.MONTH);
         int year = cal.get(Calendar.YEAR);
         jTextField1.setText(day + "/" + (month + 1) + "/" + year);
-        //Time
-
+     //   setText("" + (month + 1) + "/" + day + "/" + year);
+      //Time
         int hour = cal.get(Calendar.HOUR);
         int minute = cal.get(Calendar.MINUTE);
-        int second = cal.get(Calendar.SECOND);
-        jTextField3.setText(hour + ":" + (minute + 1));
+        int seconds = cal.get(Calendar.SECOND);
+        jTextField3.setText(hour + ":" + (minute + 1)+":"+seconds);
     }
 
     public void getTotal() {

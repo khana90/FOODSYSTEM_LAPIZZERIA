@@ -69,16 +69,14 @@ public class Shopping_Basket extends javax.swing.JFrame {
 
             DefaultTableModel tableModel = (DefaultTableModel) order_tbl.getModel();
             order_tbl.setModel(DbUtils.resultSetToTableModel(res));
+           
             Object[] row;
-
             while (res.next()) {
                 row = new Object[4];
-
-                row[0] = res.getString(1);
-                row[1] = res.getString(2);
-                row[2] = res.getString(3);
-                row[3] = res.getString(4);
-
+                row[0] = res.getString(0);
+                row[1] = res.getString(1);
+                row[2] = res.getString(2);
+                row[3] = res.getString(3);
                 tableModel.addRow(row);
 
             }
@@ -196,7 +194,7 @@ public class Shopping_Basket extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

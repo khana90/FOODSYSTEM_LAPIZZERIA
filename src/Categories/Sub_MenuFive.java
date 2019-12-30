@@ -141,7 +141,7 @@ public final class Sub_MenuFive extends javax.swing.JFrame {
                                 .addComponent(jToggleButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)))))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,10 +163,10 @@ public final class Sub_MenuFive extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,12 +184,13 @@ public final class Sub_MenuFive extends javax.swing.JFrame {
         int row= submenu5_tbl.getSelectedRow();
         try{
             String qry="INSERT INTO shopping_basket (item_title,description,price, size, cust_id) VALUES(?,?,?,?,?)";
-            pst=conn.prepareStatement(qry);
+            pst=conn.prepareStatement(qry); 
+           
             String itemtitle=(String)submenu5_tbl.getValueAt(row, 0);
             String desc= (String)submenu5_tbl.getValueAt(row,1);
             Double price= (Double)submenu5_tbl.getValueAt(row, 2);
             String size=(String)submenu5_tbl.getValueAt(row, 3);
-         //   Integer lgid = (Integer)submenu5_tbl.getValueAt(row, 4);
+      // String orderReq = jTextField1.getText();
             
            // System.out.print(Login.CustomerId);
             pst.setString(1, itemtitle);
@@ -197,6 +198,7 @@ public final class Sub_MenuFive extends javax.swing.JFrame {
             pst.setDouble(3, price);
             pst.setString(4, size);
             pst.setInt(5, Login.CustomerId);
+           // pst.setString(6, orderReq);
             pst.execute();
             
             JOptionPane.showMessageDialog(null, "Added To Basket");
