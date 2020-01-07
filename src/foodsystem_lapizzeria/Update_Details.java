@@ -15,6 +15,7 @@ public class Update_Details extends javax.swing.JFrame {
     Connection conn;
     ResultSet res;
     PreparedStatement pst;
+    String qry;
     public static int CustomerId;
 
     /**
@@ -50,7 +51,7 @@ public class Update_Details extends javax.swing.JFrame {
         jLabel2.setText("Username:");
 
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel3.setText("Password:");
+        jLabel3.setText("New Password:");
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel4.setText("Confirm Password:");
@@ -79,14 +80,17 @@ public class Update_Details extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jToggleButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
                                 .addComponent(jLabel4)
-                                .addGap(4, 4, 4)))
+                                .addGap(4, 4, 4))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -106,16 +110,17 @@ public class Update_Details extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel3))
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
+                .addGap(34, 34, 34)
                 .addComponent(jToggleButton2)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -140,12 +145,12 @@ public class Update_Details extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(jLabel6)
-                .addContainerGap(325, Short.MAX_VALUE))
+                .addContainerGap(299, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -153,29 +158,28 @@ public class Update_Details extends javax.swing.JFrame {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
+        String uname = jTextField1.getText().trim();
+        String newpass = jPasswordField1.getText().trim();
+        String confpass2 = jPasswordField2.getText().trim();
 
-            String uname = jTextField1.getText().trim();
-            String pass = jPasswordField1.getText().trim();
-            String pass2 = jPasswordField2.getText().trim();
-
-            String qry = "UPDATE customer SET username = '"+uname+"', password = '"+pass+"', password2 = '"+pass2+"' where cust_id = ?";
-        try {    
+        qry = "UPDATE customer SET password = '" + newpass + "', password2 = '" + confpass2 + "' where username = '" + uname + "' ";
+        try {
             pst = conn.prepareStatement(qry);
-            
-            pst.setString(1, uname);
-            pst.setString(2, pass);
-            pst.setString(3, pass2);
-            pst.setInt(4, Login.CustomerId);
-
             pst.executeUpdate();
-            if (pass.equals(pass2)) {
+            //     while (res.next()) {
+//                String usrname = res.getString("username");
+//                String passw = res.getString("password");
+            if (uname.equals(uname) && newpass.equals(confpass2)) {
+
                 JOptionPane.showMessageDialog(null, "Password Updated/changed Successfully !!", "Password Reset", JOptionPane.WARNING_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "Password Doesn't Match ", "Reset Password", JOptionPane.INFORMATION_MESSAGE);
+
             }
+            //    }
 
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(null, "" + e);
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 

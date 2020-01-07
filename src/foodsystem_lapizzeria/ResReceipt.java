@@ -4,9 +4,7 @@ import foodsystem_lapizzeria.Payment;
 import Foodsystem_Admin.AdminPage;
 import foodsystem_lapizzeria.Login;
 import foodsystem_lapizzeria.Shopping_Basket;
-//import static Foodsystem_Admin.AdminPage.jPanel4;
 import Foodsystem_Admin.Admin_Login;
-//import apple.laf.JRSUIConstants;
 import java.awt.HeadlessException;
 import java.awt.List;
 import java.sql.Connection;
@@ -59,9 +57,7 @@ public class ResReceipt extends javax.swing.JFrame {
 
             pst = conn.prepareStatement(qry);
             pst.setInt(1, Login.CustomerId);
-            //   pst.setInt(2, Shopping_Basket.BasketId);
             res = pst.executeQuery();
-
             if (res.next()) {
                 model.addElement("<<<<<<<<<<<CUSTOMER Address>>>>>>>>>>>");
                 model.addElement("Customer Id: " + res.getInt("cust_id"));
@@ -74,10 +70,11 @@ public class ResReceipt extends javax.swing.JFrame {
                 model.addElement("Payment Type: " + res.getString("payment_type"));
                 model.addElement("Date and Time: " + res.getString("DateTime"));
                 model.addElement("Total: " + res.getString("total"));
-                // model.addElement("Order Request: " + res.getString("order_request"));
+            // model.addElement("Order Request: " + res.getString("order_request"));
             }
             jList1.setModel(model);
 
+            res = pst.executeQuery();
             while (res.next()) {
                 model.addElement("*************CUSTOMER ORDER*************");
                 model.addElement("Item Name: " + res.getString("item_title"));
@@ -290,8 +287,8 @@ public class ResReceipt extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         //Send to Restaurant
-        String orderreq; 
-        
+        String orderreq;
+        qry = "insert into Receipt (Order_Request) VALUES(?)";
         String qry = "INSERT into Receipt (item_title,item_desc,item_price,item_size,cust_id,cust_name,cust_email,cust_address,cust_contact,payment_type,DateTime,Total,paymentId)"
                 + "SELECT s.item_title,s.description,s.price,s.size, c.cust_id,c.name,c.email,c.address,c.contact, p.Payment_type, p.DateTime,p.Total,p.paymentId "
                 + "from shopping_basket s ,customer c, payment p where c.cust_id=? and s.cust_id = c.cust_id and p.DateTime = (select MAX(DateTime) from payment)\n"
@@ -303,7 +300,7 @@ public class ResReceipt extends javax.swing.JFrame {
             //  pst.setInt(2, Payment.PaymentId);
             pst.executeUpdate();
 
-         //       pst.setString(1, item);
+            //       pst.setString(1, item);
             //      pst.execute();
             if (res.next()) {
                 pst.setString(1, res.getString("item_title"));
@@ -318,7 +315,7 @@ public class ResReceipt extends javax.swing.JFrame {
                 pst.setString(10, res.getString("datetime"));
                 pst.setString(11, res.getString("total"));
                 pst.setString(12, res.getString("paymentId"));
-           //     pst.setString(13, res.getString("order_request"));
+                //     pst.setString(13, res.getString("order_request"));
                 pst.addBatch();
             }
 
@@ -329,20 +326,8 @@ public class ResReceipt extends javax.swing.JFrame {
         //   }
         JOptionPane.showMessageDialog(null, "Order has been sent");
         //  new AdminPage().setVisible(true);
-         try{   
-        qry="insert into Receipt (Order_Request) VALUES(?)";
-        pst=conn.prepareStatement(qry);
-        pst.setString(1, jTextArea2.getText());
-        
-        pst.execute();
-       
-            
-            
-        }catch(Exception e){
-            
-        }
-        
-        
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void RBDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RBDeliveryActionPerformed
@@ -386,19 +371,20 @@ public class ResReceipt extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-      try{   
-        qry="insert into Receipt (Order_Request) VALUES(?)";
-        pst=conn.prepareStatement(qry);
-        pst.setString(1, jTextArea2.getText());
-        
-        pst.execute();
-       
-            
-            
-        }catch(Exception e){
-            
+        try {
+            qry = "insert into Receipt (Order_Request) VALUES(?)";
+            pst = conn.prepareStatement(qry);
+            pst.setString(1, jTextArea2.getText());
+
+            pst.execute();
+
+        } catch (Exception e) {
+
         }
-        
+   //   AdminPage.jListAdmin.setModel(ResReceipt.jList1.getModel());
+
+    //    AdminPage.jTextArea3.setText(ResReceipt.jTextArea2.getText());
+
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**

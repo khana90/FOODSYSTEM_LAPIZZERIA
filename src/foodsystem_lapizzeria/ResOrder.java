@@ -48,12 +48,9 @@ public class ResOrder extends javax.swing.JFrame {
 //     qry = "SELECT item_title, description,price,size FROM `shopping_basket` WHERE 'basket_id' = ? ";
 //        try {
 //            pst = conn.prepareStatement(qry);
-//            
-//            pst.setInt(1, Shopping_Basket.basketId);
-//            
+//            pst.setInt(1, Shopping_Basket.basketId); 
 //             res = pst.executeQuery();
 //              
-//             // Shopping_Basket.basketId = res.getInt("basket_id");
 //              
 //             DefaultTableModel tableModel = (DefaultTableModel) order_tbl2.getModel();
 //             order_tbl2.setModel(DbUtils.resultSetToTableModel(res));

@@ -295,7 +295,6 @@ public class Shopping_Basket extends javax.swing.JFrame {
 
         dispose();
 
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
