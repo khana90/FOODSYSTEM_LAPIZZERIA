@@ -57,7 +57,7 @@ public class Payment extends javax.swing.JFrame {
     }
 
     public void getTotal() {
-        jTextField2.setText(Shopping_Basket.jTextField3.getText());
+        jTextField2.setText(Basket.jTextField1.getText());
     }
     
 //    public void AddDateAndTime(){
@@ -123,6 +123,7 @@ public class Payment extends javax.swing.JFrame {
         jLabel3.setText("Total:");
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 255));
         jLabel4.setText("Payment Type:");
 
         jTextField1.setEditable(false);
@@ -134,6 +135,7 @@ public class Payment extends javax.swing.JFrame {
         });
 
         jToggleButton1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Symbols/Cancel.png"))); // NOI18N
         jToggleButton1.setText("Cancel");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,6 +181,7 @@ public class Payment extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Symbols/back.png"))); // NOI18N
         jButton1.setText("<<");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,7 +274,7 @@ public class Payment extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(34, 34, 34))
         );
@@ -298,7 +301,7 @@ public class Payment extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new Shopping_Basket().setVisible(true);
+        new Basket().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed

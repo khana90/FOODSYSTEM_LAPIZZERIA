@@ -23,8 +23,6 @@ public class ProConnection {
         try{ //org.apache.derby.jdbc.ClientDriver
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:8889/FoodSystem_Lapizzeria","root","root");
-//        String Username="root";
-//        String Password="root";
             return conn;
             
         }catch (Exception e){

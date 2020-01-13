@@ -24,6 +24,7 @@ public class Update_Details extends javax.swing.JFrame {
     public Update_Details() {
         initComponents();
         conn = ProConnection.ConnectDB();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
