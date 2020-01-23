@@ -1,6 +1,6 @@
 
 package foodsystem_lapizzeria;
-import foodsystem_lapizzeria.Shopping_Basket; 
+//import foodsystem_lapizzeria.Shopping_Basket; 
 import static foodsystem_lapizzeria.Payment.jRadioButton4;
 import java.awt.HeadlessException;
 import java.sql.Connection;

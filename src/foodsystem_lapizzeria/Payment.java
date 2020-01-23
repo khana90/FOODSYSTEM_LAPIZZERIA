@@ -1,7 +1,7 @@
 package foodsystem_lapizzeria;
 
 import foodsystem_lapizzeria.Login;
-import foodsystem_lapizzeria.Shopping_Basket; 
+//import foodsystem_lapizzeria.Shopping_Basket; 
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -235,7 +235,7 @@ public class Payment extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(294, 294, 294)

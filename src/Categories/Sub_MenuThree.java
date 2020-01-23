@@ -5,7 +5,7 @@ import foodsystem_lapizzeria.Basket;
 import foodsystem_lapizzeria.Login;
 import foodsystem_lapizzeria.ProConnection;
 import foodsystem_lapizzeria.ResMenu;
-import foodsystem_lapizzeria.Shopping_Basket;
+//import foodsystem_lapizzeria.Shopping_Basket;
 import foodsystem_lapizzeria.SubMenu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

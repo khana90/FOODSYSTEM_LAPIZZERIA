@@ -1,8 +1,9 @@
 
 package foodsystem_lapizzeria;
 
-import static foodsystem_lapizzeria.Shopping_Basket.CustomerId;
-import static foodsystem_lapizzeria.Shopping_Basket.jTextField3;
+import Categories.Sub_MenuFive;
+//import static foodsystem_lapizzeria.Shopping_Basket.CustomerId;
+//import static foodsystem_lapizzeria.Shopping_Basket.jTextField3;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -132,6 +133,11 @@ Connection conn;
 
         jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Symbols/back.png"))); // NOI18N
         jToggleButton3.setText("Back");
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setBackground(new java.awt.Color(255, 51, 255));
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
@@ -253,6 +259,12 @@ Connection conn;
         // TODO add your handling code here: cancel button
         this.dispose();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+        // TODO add your handling code here:
+        new ResMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     /**
      * @param args the command line arguments

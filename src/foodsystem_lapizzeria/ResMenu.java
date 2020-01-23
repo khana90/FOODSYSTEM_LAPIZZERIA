@@ -7,8 +7,10 @@ import Categories.Sub_MenuTwo;
 import Categories.Sub_MenuThree;
 import Categories.Sub_MenuOne;
 import Categories.Sub_MenuSix;
+import com.teamdev.jxbrowser.browser.Browser;
 //import foodsystem_lapizzeria.admin.Admin_Login;
 import foodsystem_lapizzeria.ProConnection;
+import java.awt.BorderLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +20,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 
 import javax.swing.table.DefaultTableModel;
@@ -52,52 +55,6 @@ public class ResMenu extends javax.swing.JFrame {
             
         }
 
-    
-//    public ArrayList<FoodCategory> CategoryList(){
-//    ArrayList<FoodCategory> CategoryList= new ArrayList<>();
-//    
-//      try{
-//      String qry="select menu_title from resmenu ";
-//            pst=conn.prepareStatement(qry);
-//            res=pst.executeQuery();
-//            
-//            FoodCategory foodcategory;
-//            while (res.next()){
-//            foodcategory = new FoodCategory(res.getString("menu_title"));
-//
-//               CategoryList.add(foodcategory);  
-//            
-//              
-//            }
-//        }catch(Exception e){
-//            JOptionPane.showMessageDialog(null, e);
-//        }
-//    return CategoryList;
-//}
-
-    
-//    public void CategoryTable(){ 
-//     //   ListSelectionModel mdl= category_table.getSelectionModel();
-//        ArrayList<FoodCategory> list=CategoryList();
-//        category_table.setModel(DbUtils.resultSetToTableModel(res));
-//        DefaultTableModel model= (DefaultTableModel) category_table.getModel();
-//       TableModel modl = category_table.getModel();
-//        int index []= category_table.getSelectedRows();
-//        Object []row = new Object[1];
-//    
-//        for(int i =0;i<list.size(); i++){
-//           // row[0]=list.get(i).getMenu_id();
-//           row[0]=list.get(i).getMenu_title();
-//          //  row[0]=modl.getValueAt(index[i],0);
-//           model.addRow(row);
-//         
-//           
-//           
-//        }
-//         
-//    }
-   
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -129,6 +86,7 @@ public class ResMenu extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -179,7 +137,7 @@ public class ResMenu extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,6 +259,14 @@ public class ResMenu extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem7);
 
+        jMenuItem8.setText("Contact Us");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem8);
+
         jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
@@ -311,8 +277,8 @@ public class ResMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,7 +340,8 @@ public class ResMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here: Reviews
+        new ResReview().setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
@@ -386,6 +353,11 @@ public class ResMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
          new ResInfo().setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:About us
+        new AboutUs().setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -442,6 +414,7 @@ public class ResMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
